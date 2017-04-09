@@ -1,5 +1,5 @@
-cache
+cache/*
 !cache/.gitkeep
-.settinds
+.settings
 .project
 
