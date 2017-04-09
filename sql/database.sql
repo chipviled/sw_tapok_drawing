@@ -11,7 +11,7 @@ CREATE TABLE picture
   pict_height INTEGER,
   user_id INTEGER,
   keywords TEXT,
-  vote INTEGER,
+  vote INTEGER NOT NULL,
   vote_users TEXT,
   iteration_id INTEGER,
   created_at DATE,
@@ -22,7 +22,7 @@ CREATE TABLE picture
 CREATE TABLE users
 ( id INTEGER,
   name TEXT NOT NULL,
-  sity_id INTEGER,
+  sity_id INTEGER NOT NULL,
   CONSTRAINT id_pk PRIMARY KEY (id)
 );
 

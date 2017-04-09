@@ -4,7 +4,7 @@
         "table": {
             "name": "picture",
             "pk": "id",
-            "verbose": "picture"
+            "verbose": "Картинка"
         },
         "columns": [
             {
@@ -20,7 +20,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             },
             {
@@ -43,7 +43,7 @@
                 "name": "description",
                 "verbose": "description",
                 "control": {
-                    "text": true
+                    "textarea": true
                 },
                 "type": "TEXT",
                 "allowNull": true,
@@ -139,7 +139,14 @@
                 "name": "user_id",
                 "verbose": "user_id",
                 "control": {
-                    "text": true
+                    "select": true
+                },
+                "oneToMany": {
+                    "table": "users",
+                    "pk": "id",
+                    "columns": [
+                        "name"
+                    ]
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -171,7 +178,7 @@
                 "name": "vote",
                 "verbose": "vote",
                 "control": {
-                    "text": true
+                    "number": true
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -203,7 +210,14 @@
                 "name": "iteration_id",
                 "verbose": "iteration_id",
                 "control": {
-                    "text": true
+                    "select": true
+                },
+                "oneToMany": {
+                    "table": "iteration",
+                    "pk": "id",
+                    "columns": [
+                        "theme"
+                    ]
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -228,7 +242,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             },
             {
@@ -244,7 +258,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             }
         ],
@@ -259,21 +273,19 @@
             "readonly": false
         }
     },
-    
-    
     "users": {
         "slug": "users",
         "table": {
             "name": "users",
             "pk": "id",
-            "verbose": "users"
+            "verbose": "Пользователи"
         },
         "columns": [
             {
                 "name": "id",
                 "verbose": "id",
                 "control": {
-                    "text": true
+                    "number": true
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -282,7 +294,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             },
             {
@@ -305,16 +317,46 @@
                 "name": "sity_id",
                 "verbose": "sity_id",
                 "control": {
-                    "text": true
+                    "number": true
                 },
                 "type": "INTEGER",
-                "allowNull": true,
-                "defaultValue": null,
+                "allowNull": false,
+                "defaultValue": 0,
                 "listview": {
                     "show": true
                 },
                 "editview": {
                     "show": true
+                }
+            },
+            {
+                "verbose": "Ачивки",
+                "name": "recipe_type",
+                "control": {
+                    "select": true,
+                    "multiple": true
+                },
+                "type": "int(11)",
+                "allowNull": true,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                },
+                "manyToMany": {
+                    "link": {
+                        "table": "user_achivement",
+                        "parentPk": "achivement_id",
+                        "childPk": "user_id"
+                    },
+                    "ref": {
+                        "table": "achivement",
+                        "pk": "id",
+                        "columns": [
+                            "title"
+                        ]
+                    }
                 }
             }
         ],
@@ -329,21 +371,19 @@
             "readonly": false
         }
     },
-    
-    
     "iteration": {
         "slug": "iteration",
         "table": {
             "name": "iteration",
             "pk": "id",
-            "verbose": "iteration"
+            "verbose": "Этап"
         },
         "columns": [
             {
                 "name": "id",
                 "verbose": "id",
                 "control": {
-                    "text": true
+                    "number": true
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -352,7 +392,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             },
             {
@@ -407,7 +447,14 @@
                 "name": "theme_user_id",
                 "verbose": "theme_user_id",
                 "control": {
-                    "text": true
+                    "select": true
+                },
+                "oneToMany": {
+                    "table": "users",
+                    "pk": "id",
+                    "columns": [
+                        "name"
+                    ]
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -423,7 +470,14 @@
                 "name": "win_user_id",
                 "verbose": "win_user_id",
                 "control": {
-                    "text": true
+                    "select": true
+                },
+                "oneToMany": {
+                    "table": "users",
+                    "pk": "id",
+                    "columns": [
+                        "name"
+                    ]
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -439,7 +493,7 @@
                 "name": "description",
                 "verbose": "description",
                 "control": {
-                    "text": true
+                    "textarea": true
                 },
                 "type": "TEXT",
                 "allowNull": true,
@@ -463,21 +517,19 @@
             "readonly": false
         }
     },
-    
-    
     "achivement": {
         "slug": "achivement",
         "table": {
             "name": "achivement",
             "pk": "id",
-            "verbose": "achivement"
+            "verbose": "Ачивка"
         },
         "columns": [
             {
                 "name": "id",
                 "verbose": "id",
                 "control": {
-                    "text": true
+                    "number": true
                 },
                 "type": "INTEGER",
                 "allowNull": true,
@@ -486,7 +538,7 @@
                     "show": true
                 },
                 "editview": {
-                    "show": true
+                    "show": false
                 }
             },
             {
@@ -549,14 +601,12 @@
             "readonly": false
         }
     },
-    
-    
     "user_achivement": {
         "slug": "user_achivement",
         "table": {
             "name": "user_achivement",
             "pk": "user_id",
-            "verbose": "user_achivement"
+            "verbose": "User - Achivement (technical)"
         },
         "columns": [
             {

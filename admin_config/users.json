@@ -4,6 +4,7 @@
         "admin": true,
         "salt": "TW8CuRczMeiI5js5oqi+Lp+X2rJ6tiQMuLaSNau0bvuv+sGMRN1giMc+E90vcstPQYqkP6fnrUW9NQXq4ScZz37KqC+05Hv+IGV+Krq63SOwch2cSdv/Gl7TQK96Lr/1txUhvJiBeiao/lLGodJ71tOeiTFS5c0yP5gW74MlH08=",
         "hash": "20aekHHPzqOoe0vwgsGM07Wn+CFX+8Zlcme2JJu2PLuE6syGQsXlSsGlhcvqnmYs0Axnc9NnuDYXWeyDpowhyhyRJclyCcvWsARVEtY/tD7hkW7HiCjtm8tGgs/OReMcCRjLEZLArNS4oOeJloceEVWoAZNI4qnTpVXnKzAyJss=",
-        "password": "adminADMIN111"
+        "password": "adminADMIN111",
+        "description": "This admin use only in localhost for generate content for static site.  DO NOT USE IN PRODUCTION !!!"
     }
 }
