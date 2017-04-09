@@ -1,18 +1,18 @@
--- Create tables.
+
 
 CREATE TABLE picture
 ( id INTEGER,
-  title VARCHAR NOT NULL,
-  description VARCHAR,
-  file_path VARCHAR,
-  file_name VARCHAR,
-  file_size VARCHAR,
+  title TEXT NOT NULL,
+  description TEXT,
+  file_path TEXT,
+  file_name TEXT,
+  file_size TEXT,
   pict_width INTEGER,
   pict_height INTEGER,
   user_id INTEGER,
-  keywords VARCHAR,
+  keywords TEXT,
   vote INTEGER,
-  vote_users VARCHAR,
+  vote_users TEXT,
   iteration_id INTEGER,
   created_at DATE,
   updated_at DATE,
@@ -21,7 +21,7 @@ CREATE TABLE picture
 
 CREATE TABLE users
 ( id INTEGER,
-  name VARCHAR NOT NULL,
+  name TEXT NOT NULL,
   sity_id INTEGER,
   CONSTRAINT id_pk PRIMARY KEY (id)
 );
@@ -30,18 +30,18 @@ CREATE TABLE iteration
 ( id INTEGER,
   date_begin DATE,
   date_end DATE,
-  theme VARCHAR NOT NULL,
+  theme TEXT NOT NULL,
   theme_user_id INTEGER,
   win_user_id INTEGER,
-  description VARCHAR,
+  description TEXT,
   CONSTRAINT id_pk PRIMARY KEY (id)
 );
 
 CREATE TABLE achivement
 ( id INTEGER,
-  title VARCHAR,
-  description VARCHAR,
-  image VARCHAR,
+  title TEXT,
+  description TEXT,
+  image TEXT,
   CONSTRAINT id_pk PRIMARY KEY (id)
 );
 

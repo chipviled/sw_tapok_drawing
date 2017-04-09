@@ -1,0 +1,16 @@
+{
+  "name": "sw_tapok_drawing",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Chip Viled",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.15.2",
+    "express-admin": "^1.2.8",
+    "sqlite3": "^3.1.8"
+  }
+}
