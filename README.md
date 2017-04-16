@@ -1,4 +1,4 @@
-#Install
+# Install
 
 For normal work need `node >= 6.0`
 
@@ -12,7 +12,7 @@ cat ./sql/database.sql | sqlite3 ./cache/database.db
 ```
 
 
-#Run
+# Run Admin
 
 From project root directory run:
 ```
