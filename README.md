@@ -21,11 +21,11 @@ From project root directory run:
 ./bin/admin
 ```
 
-And open in your browser `localhost:9001`
+After open in your browser `http://localhost:9001`
 
 login: **admin**
 
 password: **adminADMIN111**
 
-It's local admin for convenient working with local data.
-*Do NOT use in production.*
+It's local admin for comfortable working with local data only.
+**Do NOT use in production.**
