@@ -2,11 +2,13 @@
 
 For normal work need `node >= 6.0`
 
-Install need modules^
+All commands need run from project root directory.
+
+Install need node modules:
 ```
 npm install
 ```
-Create temp database
+Create temp empty database:
 ```
 cat ./sql/database.sql | sqlite3 ./cache/database.db
 ```
@@ -25,3 +27,5 @@ login: **admin**
 
 password: **adminADMIN111**
 
+It's local admin for convenient working with local data.
+*Do NOT use in production.*
