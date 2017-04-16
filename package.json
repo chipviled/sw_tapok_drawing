@@ -12,6 +12,7 @@
     "express": "^4.15.2",
     "express-admin": "^1.2.8",
     "express-fileupload": "^0.1.2",
+    "moment": "^2.18.1",
     "sqlite3": "^3.1.8"
   }
 }

@@ -1,9 +1,8 @@
-
-
 CREATE TABLE picture
-( id INTEGER AUTOINCREMENT,
+( id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
   description TEXT,
+  file VARCHAT(1),
   file_path TEXT,
   file_name TEXT,
   file_size TEXT,
@@ -11,38 +10,34 @@ CREATE TABLE picture
   pict_height INTEGER,
   user_id INTEGER NOT NULL,
   keywords TEXT,
-  vote INTEGER NOT NULL,
+  vote INTEGER NOT NULL DEFAULT 0,
   vote_users TEXT,
   iteration_id INTEGER,
   created_at DATE,
-  updated_at DATE,
-  CONSTRAINT id_pk PRIMARY KEY (id)
+  updated_at DATE
 );
 
 CREATE TABLE users
-( id INTEGER AUTOINCREMENT,
+( id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
-  sity_id INTEGER NOT NULL,
-  CONSTRAINT id_pk PRIMARY KEY (id)
+  sity_id INTEGER NOT NULL
 );
 
 CREATE TABLE iteration
-( id INTEGER AUTOINCREMENT,
-  date_begin DATE,
-  date_end DATE,
+( id INTEGER PRIMARY KEY AUTOINCREMENT,
+  date_begin DATETIME,
+  date_end DATETIME,
   theme TEXT NOT NULL,
   theme_user_id INTEGER NOT NULL,
   win_user_id INTEGER,
-  description TEXT,
-  CONSTRAINT id_pk PRIMARY KEY (id)
+  description TEXT
 );
 
 CREATE TABLE achivement
-( id INTEGER AUTOINCREMENT,
-  title TEXT,
+( id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
   description TEXT,
-  image TEXT,
-  CONSTRAINT id_pk PRIMARY KEY (id)
+  image TEXT
 );
 
 CREATE TABLE user_achivement

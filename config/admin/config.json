@@ -8,6 +8,7 @@
     "app": {
         "layouts": true,
         "themes": true,
-        "languages": true
+        "languages": true,
+        "upload": "public/upload/"
     }
 }

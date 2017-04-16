@@ -56,11 +56,27 @@
                 }
             },
             {
-                "name": "file_path",
+                "name": "file",
                 "verbose": "file",
                 "control": {
                     "file": true,
                     "binary": true
+                },
+                "type": "TEXT",
+                "allowNull": true,
+                "defaultValue": null,
+                "listview": {
+                    "show": false
+                },
+                "editview": {
+                    "show": true
+                }
+            },
+            {
+                "name": "file_path",
+                "verbose": "file_path",
+                "control": {
+                    "text": true
                 },
                 "type": "TEXT",
                 "allowNull": true,
@@ -94,7 +110,7 @@
                 "control": {
                     "text": true
                 },
-                "type": "TEXT",
+                "type": "INTEGER",
                 "allowNull": true,
                 "defaultValue": null,
                 "listview": {
@@ -150,7 +166,7 @@
                     ]
                 },
                 "type": "INTEGER",
-                "allowNull": true,
+                "allowNull": false,
                 "defaultValue": null,
                 "listview": {
                     "show": true
@@ -182,8 +198,8 @@
                     "number": true
                 },
                 "type": "INTEGER",
-                "allowNull": true,
-                "defaultValue": null,
+                "allowNull": false,
+                "defaultValue": "0",
                 "listview": {
                     "show": true
                 },
@@ -221,7 +237,7 @@
                     ]
                 },
                 "type": "INTEGER",
-                "allowNull": true,
+                "allowNull": false,
                 "defaultValue": null,
                 "listview": {
                     "show": true
@@ -458,7 +474,7 @@
                     ]
                 },
                 "type": "INTEGER",
-                "allowNull": true,
+                "allowNull": false,
                 "defaultValue": null,
                 "listview": {
                     "show": true
@@ -549,7 +565,7 @@
                     "text": true
                 },
                 "type": "TEXT",
-                "allowNull": true,
+                "allowNull": false,
                 "defaultValue": null,
                 "listview": {
                     "show": true
@@ -634,6 +650,58 @@
                 },
                 "type": "INTEGER",
                 "allowNull": false,
+                "defaultValue": null,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            }
+        ],
+        "mainview": {
+            "show": true
+        },
+        "listview": {
+            "order": {},
+            "page": 25
+        },
+        "editview": {
+            "readonly": false
+        }
+    },
+    "sqlite_sequence": {
+        "slug": "sqlite_sequence",
+        "table": {
+            "name": "sqlite_sequence",
+            "pk": "",
+            "verbose": "sqlite_sequence"
+        },
+        "columns": [
+            {
+                "name": "name",
+                "verbose": "name",
+                "control": {
+                    "text": true
+                },
+                "type": "",
+                "allowNull": true,
+                "defaultValue": null,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            },
+            {
+                "name": "seq",
+                "verbose": "seq",
+                "control": {
+                    "text": true
+                },
+                "type": "",
+                "allowNull": true,
                 "defaultValue": null,
                 "listview": {
                     "show": true
