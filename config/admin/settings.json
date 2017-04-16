@@ -57,9 +57,10 @@
             },
             {
                 "name": "file_path",
-                "verbose": "file_path",
+                "verbose": "file",
                 "control": {
-                    "text": true
+                    "file": true,
+                    "binary": true
                 },
                 "type": "TEXT",
                 "allowNull": true,

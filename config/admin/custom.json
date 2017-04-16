@@ -1,0 +1,5 @@
+{
+    "some-key": {
+        "events": "../../src/admin/events.js"
+    }
+}
