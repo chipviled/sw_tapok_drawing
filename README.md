@@ -28,7 +28,7 @@ cat ./sql/database.sql | sqlite3 ./cache/database.db
 
 From project root directory run:
 ```
-./bin/admin
+./bin/admin.sh
 ```
 
 After open in your browser `http://localhost:9001`

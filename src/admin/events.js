@@ -17,7 +17,7 @@ const thumbSize = 160;
 
 
 exports.preSave = function (req, res, args, next) {
-    console.log(args, '---------');
+    //console.log(args, '---------');
     if (args.name == 'picture') {
         console.log('picture');
         
@@ -48,7 +48,7 @@ exports.preSave = function (req, res, args, next) {
     next();
 }
 
-savePicture = function (req, res, args, next) {
+savePicture = function(req, res, args, next) {
     var record = args.data.view.picture.records[0].columns;
     var file = record.file;
     
