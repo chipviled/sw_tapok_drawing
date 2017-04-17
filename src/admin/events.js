@@ -1,4 +1,3 @@
-const fileUpload = require('express-fileupload');
 const moment = require('moment');
 const fs = require('fs');
 const im = require('imagemagick-native');

@@ -4,3 +4,4 @@ cache/*
 .project
 node_modules
 dist
+public
