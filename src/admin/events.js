@@ -11,6 +11,9 @@ const picFormat = {
         'GIF': '.gif'
 };
 const thumb = 'thumb_';
+const maxSize = 1600;
+const thumbSize = 160;
+
 
 
 exports.preSave = function (req, res, args, next) {
@@ -48,7 +51,6 @@ exports.preSave = function (req, res, args, next) {
 savePicture = function (req, res, args, next) {
     var record = args.data.view.picture.records[0].columns;
     var file = record.file;
-    console.log('>>>');
     
     if (file !== null && file !== undefined && file !== '') {
         
@@ -61,27 +63,51 @@ savePicture = function (req, res, args, next) {
             var identify = im_identify({
                 srcData: fileBuffer
                 });
-            console.log('identify', identify);
+            //console.log('identify', identify);
 
             if (!(identify.format in picFormat))
                 return next({'message': 'Unsupported format: ' + identify.format});
             
             record.file_path = path;
             record.file_name = name + picFormat[identify.format];
-            record.pict_width = identify.width;
-            record.pict_height = identify.height;
             
-            var im_convert = deasync(im.convert);
-            var thumb_fileBuffer = im_convert({
-                    srcData: fileBuffer,
-                    width: 140,
-                    height: 140,
-                    resizeStyle: 'aspectfill',
-                    gravity: 'Center'
-                });
-            
+            var w = identify.width;
+            var h = identify.height;
+            if (w > maxSize || h > maxSize){
+                if (w > h) {
+                    h = Math.round((maxSize/w) * h);
+                    w = maxSize;
+                } else {
+                    w = Math.round((maxSize/h) * w);
+                    h = maxSize;
+                }
+            }
+
+            record.pict_width = w;
+            record.pict_height = h;
         } catch(e) {
             return next({'message': 'Incorrect image file'});
+        }
+        
+        try {
+            var im_convert = deasync(im.convert);
+            var thumb_fileBuffer = im_convert({
+                srcData: fileBuffer,
+                width: thumbSize,
+                height: thumbSize,
+                quality: 93,
+                resizeStyle: 'aspectfill',
+                gravity: 'Center'
+            });
+            
+            fileBuffer = im_convert({
+                srcData: fileBuffer,
+                width: record.pict_width,
+                height: record.pict_height,
+                quality: 90,
+            });
+        } catch(e) {
+            return next({'message': 'Can not create thumb or resize image'});
         }
 
         try {
@@ -102,10 +128,7 @@ savePicture = function (req, res, args, next) {
         } catch(e) {
             return next({'message': e});
         }
-
     }
-    console.log('>>><<<');
-
     return null;
 }
 
