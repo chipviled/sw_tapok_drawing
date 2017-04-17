@@ -9,9 +9,11 @@
   "author": "Chip Viled",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.3.0",
+    "deasync": "^0.1.9",
     "express": "^4.15.2",
     "express-admin": "^1.2.8",
-    "express-fileupload": "^0.1.2",
+    "imagemagick-native": "^1.9.3",
     "moment": "^2.18.1",
     "sqlite3": "^3.1.8"
   }

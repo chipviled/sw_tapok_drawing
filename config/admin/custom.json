@@ -1,5 +1,8 @@
 {
     "some-key": {
-        "events": "../../src/admin/events.js"
+        "events": "../../src/admin/events.js",
+         "local": {
+            "path": "../../public/upload/"
+            }
     }
 }

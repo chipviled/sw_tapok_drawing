@@ -8,6 +8,7 @@ CREATE TABLE picture
   file_size TEXT,
   pict_width INTEGER,
   pict_height INTEGER,
+  is_voted BOOLEAN DEFAULT TRUE,
   user_id INTEGER NOT NULL,
   keywords TEXT,
   vote INTEGER NOT NULL DEFAULT 0,

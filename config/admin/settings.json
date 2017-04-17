@@ -153,6 +153,26 @@
                 }
             },
             {
+                "name": "is_voted",
+                "verbose": "is_voted",
+                "control": {
+                    "radio": true,
+                    "options": [
+                        "True",
+                        "False"
+                    ]
+                },
+                "type": "BOOLEAN",
+                "allowNull": false,
+                "defaultValue": true,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            },
+            {
                 "name": "user_id",
                 "verbose": "user_id",
                 "control": {

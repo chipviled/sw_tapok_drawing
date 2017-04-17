@@ -1,6 +1,16 @@
 const fileUpload = require('express-fileupload');
 const moment = require('moment');
 const fs = require('fs');
+const im = require('imagemagick-native');
+const deasync = require('deasync');
+
+const picFormat = {
+        'JPG': '.jpg',
+        'JPEG':'.jpg',
+        'PNG': '.png',
+        'GIF': '.gif'
+}
+
 
 exports.preSave = function (req, res, args, next) {
     console.log(args, '---------');
@@ -33,30 +43,52 @@ exports.preSave = function (req, res, args, next) {
 savePicture = function (req, res, args, next) {
     var record = args.data.view.picture.records[0].columns;
     var file = record.file;
+    console.log('>>>');
     
     if (file !== null && file !== undefined && file !== '') {
+        
+        var fileBuffer = new Buffer(file, 'hex');
         var path = moment(new Date()).format('YYYYMMDD');
         var name = moment(new Date()) + '_' + record.user_id;
-        record.file_path = path;
-        record.file_name = name;
         
+        try {
+            var im_identify = deasync(im.identify);
+            var identify = im_identify({srcData: fileBuffer});
+            console.log('identify', identify);
+
+            if (!(identify.format in picFormat))
+                return next({'message': 'Unsupported format: ' + identify.format});
+            
+            record.file_path = path;
+            record.file_name = name + picFormat[identify.format];
+            record.pict_width = identify.width;
+            record.pict_height = identify.height;
+            
+        } catch(e) {
+            return next({'message': 'Incorrect image file'});
+        }
+
         try {
             if (!fs.existsSync(args.upath + path)) {
                 fs.mkdirSync(args.upath + path);
             }
-            fs.writeFileSync(args.upath + path + '/' + name, new Buffer(file, 'hex'), 'binary');
-            
-            
+            fs.writeFileSync(
+                    args.upath + record.file_path + '/' + record.file_name, 
+                    fileBuffer,
+                    'binary'
+                );
             console.log('File saved.')
         } catch(e) {
-            throw e;
+            return next({'message': e});
         }
-        
+
     }
-    
-    console.log('>>>', file);
+    console.log('>>><<<');
+
     return null;
 }
+
+
 
 
 
