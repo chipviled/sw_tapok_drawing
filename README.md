@@ -1,6 +1,6 @@
 # Install
 
-For normal work need `node >= 6.0`
+For normal work need `node >= 7.8`
 
 All commands need run from project root directory.
 
@@ -39,3 +39,18 @@ password: **adminADMIN111**
 
 It's local admin for comfortable working with local data only.
 **Do NOT use in production.**
+
+
+
+# Import/export database
+
+For export database data to json (static sity data) use:
+```
+./bin/db2json.js 
+```
+
+For import data from json to database use:
+```
+./bin/db2json.js 
+```
+All old data will be deleted.
