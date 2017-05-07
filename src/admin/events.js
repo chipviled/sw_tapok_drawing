@@ -54,7 +54,7 @@ savePicture = function(req, res, args, next) {
     if (file !== null && file !== undefined && file !== '') {
         
         var fileBuffer = new Buffer(file, 'hex');
-        var path = moment(new Date()).format('YYYYMMDD');
+        var path = moment(new Date()).format('YYYY-MM');
         var name = moment(new Date()) + '_' + record.user_id;
         
         try {

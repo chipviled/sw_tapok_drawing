@@ -44,7 +44,7 @@ It's local admin for comfortable working with local data only.
 
 # Import/export database
 
-For export database data to json (static sity data) use:
+For export database data to json (static sity public data) use:
 ```
 ./bin/db2json.js 
 ```

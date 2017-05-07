@@ -4,4 +4,6 @@ cache/*
 .project
 node_modules
 dist
-public
+public/json
+public/upload
+.buildpath

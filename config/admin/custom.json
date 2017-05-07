@@ -3,6 +3,22 @@
         "events": "../../src/admin/events.js",
          "local": {
             "path": "../../public/upload/"
+            },
+         
+
+        "public": {
+            "external": {
+                "js": []
+            },
+            "local": {
+                "path": "public/",
+                "js": [
+                    "/js/admin_custom.js"
+                ],
+                "css": [
+                    "/css/admin_custom.css"
+                ]
             }
-    }
+         }
+     }
 }
