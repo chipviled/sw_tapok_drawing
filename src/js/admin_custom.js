@@ -2,8 +2,6 @@ jQuery("documrnt").ready(function(){
     var thumb = 'thumb_';
     var upload = '/upload/';
     
-    if (console.log === undefined || console.log === null) console.log = function(){};
-    
     if (/\/picture$/.test(document.location.pathname)) {
         var table = jQuery('table.table');
         var pictureNameEl, picturePathEl, pictureTd, tr;
@@ -33,7 +31,7 @@ jQuery("documrnt").ready(function(){
     
     if (/\/picture\/.*$/.test(document.location.pathname)) {
         var table = jQuery('table.table');
-        var pictureNameEl, picturePathEl, pictureTd, tr;
+        var pictureNameEl, picturePathEl, picture;
         var pictureName = '', picturePath = ''
         
         pictureNameEl = table.find('tr:nth-child(6) input');
@@ -54,7 +52,6 @@ jQuery("documrnt").ready(function(){
                 upload + picturePath + '/' 
                 + thumb + pictureName
         );
-        
-        //console.log('>>>', picturePath, '|', pictureName);
+
     }
 });
