@@ -24,9 +24,9 @@ tables.forEach(function (element, index) {
     db.all('SELECT * FROM ' + element, {}, function(err, rows){
         console.log(' ', element);
         fs.writeFileSync(
-                jsonDIR + element + '.json', 
+                jsonDIR + element + '.json',
                 JSON.stringify(rows, null, ' '),
-                'binary'
+                'utf8'
             );
     });
 });

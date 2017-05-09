@@ -1,3 +1,5 @@
+PRAGMA encoding = "UTF-8";
+
 CREATE TABLE picture
 ( id INTEGER PRIMARY KEY AUTOINCREMENT,
   title TEXT NOT NULL,
