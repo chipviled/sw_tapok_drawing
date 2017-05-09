@@ -12,7 +12,7 @@ CREATE TABLE picture
   user_id INTEGER NOT NULL,
   keywords TEXT,
   vote INTEGER NOT NULL DEFAULT 0,
-  vote_users TEXT,
+--  vote_users TEXT,
   iteration_id INTEGER,
   created_at DATE,
   updated_at DATE
@@ -47,5 +47,10 @@ CREATE TABLE user_achivement
   CONSTRAINT id_pk PRIMARY KEY (user_id, achivement_id)
 );
 
+CREATE TABLE user_vote
+( user_id INTEGER NOT NULL,
+  vote_id INTEGER NOT NULL,
+  CONSTRAINT id_pk PRIMARY KEY (user_id, vote_id)
+);
 
 

@@ -212,30 +212,44 @@
                 }
             },
             {
+                "verbose": "Голоса",
+                "name": "recipe_type",
+                "control": {
+                    "select": true,
+                    "multiple": true
+                },
+                "type": "int(11)",
+                "allowNull": true,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                },
+                "manyToMany": {
+                    "link": {
+                        "table": "user_vote",
+                        "parentPk": "vote_id",
+                        "childPk": "user_id"
+                    },
+                    "ref": {
+                        "table": "users",
+                        "pk": "id",
+                        "columns": [
+                            "name"
+                        ]
+                    }
+                }
+            },
+            {
                 "name": "vote",
-                "verbose": "vote",
+                "verbose": "vote (denormalize)",
                 "control": {
                     "number": true
                 },
                 "type": "INTEGER",
                 "allowNull": false,
                 "defaultValue": "0",
-                "listview": {
-                    "show": true
-                },
-                "editview": {
-                    "show": true
-                }
-            },
-            {
-                "name": "vote_users",
-                "verbose": "vote_users",
-                "control": {
-                    "text": true
-                },
-                "type": "TEXT",
-                "allowNull": true,
-                "defaultValue": null,
                 "listview": {
                     "show": true
                 },
@@ -665,6 +679,58 @@
             {
                 "name": "achivement_id",
                 "verbose": "achivement_id",
+                "control": {
+                    "text": true
+                },
+                "type": "INTEGER",
+                "allowNull": false,
+                "defaultValue": null,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            }
+        ],
+        "mainview": {
+            "show": true
+        },
+        "listview": {
+            "order": {},
+            "page": 25
+        },
+        "editview": {
+            "readonly": false
+        }
+    },
+    "user_vote": {
+        "slug": "user_vote",
+        "table": {
+            "name": "user_vote",
+            "pk": "user_id",
+            "verbose": "User - Vote (technical)"
+        },
+        "columns": [
+            {
+                "name": "user_id",
+                "verbose": "user_id",
+                "control": {
+                    "text": true
+                },
+                "type": "INTEGER",
+                "allowNull": false,
+                "defaultValue": null,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            },
+            {
+                "name": "vote_id",
+                "verbose": "vote_id",
                 "control": {
                     "text": true
                 },

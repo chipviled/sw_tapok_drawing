@@ -13,7 +13,8 @@ const tables = [
     'users',
     'iteration',
     'achivement',
-    'user_achivement'
+    'user_achivement',
+    'user_vote'
 ];
 
 fs.unlinkSync(dbFile);
