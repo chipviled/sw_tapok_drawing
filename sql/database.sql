@@ -21,7 +21,8 @@ CREATE TABLE picture
 CREATE TABLE users
 ( id INTEGER PRIMARY KEY AUTOINCREMENT,
   name TEXT NOT NULL,
-  sity_id INTEGER NOT NULL
+  sity_id INTEGER NOT NULL,
+  CONSTRAINT name_unique UNIQUE (name)
 );
 
 CREATE TABLE iteration
