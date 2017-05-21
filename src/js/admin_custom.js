@@ -2,7 +2,7 @@ jQuery("documrnt").ready(function(){
     var thumb = 'thumb_';
     var upload = '/upload/';
     
-    if (/\/picture$/.test(document.location.pathname)) {
+    if (/\/picture\/?$/.test(document.location.pathname)) {
         var table = jQuery('table.table');
         var pictureNameEl, picturePathEl, pictureTd, tr;
         var pictureName = '', picturePath = ''
@@ -29,7 +29,7 @@ jQuery("documrnt").ready(function(){
         });
     }
     
-    if (/\/picture\/.*$/.test(document.location.pathname)) {
+    if (/\/picture\/.+$/.test(document.location.pathname)) {
         var table = jQuery('table.table');
         var pictureNameEl, picturePathEl, picture;
         var pictureName = '', picturePath = ''
