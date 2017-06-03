@@ -2,4 +2,6 @@
 
 # cat ./sql/database.sql | sqlite3 ./cache/database.db
 
-node ./node_modules/express-admin/app.js ./config/admin/
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+node ${DIR}/../node_modules/express-admin/app.js ${DIR}/../config/admin/

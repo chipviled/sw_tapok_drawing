@@ -19,15 +19,15 @@ let paths = {
     dest: 'build/js/'
   },
   lib: {
-    src: 'lib/*',
+    src: 'lib/**',
     dest: 'build/lib/'
   },
   image: {
-    src: 'src/sity/image/*',
+    src: 'src/sity/image/**',
     dest: 'build/image/'
   },
   data: {
-    src: 'publick/data/(json|upload)',
+    src: 'public/@(json|upload)/**',
     dest: 'build/data/'
   },
   html: {
@@ -37,8 +37,10 @@ let paths = {
 };
 
 
-function clean() {
-  return del([ 'build' ]);
+function clean(callback) {
+  del([ 'build' ]);
+  callback();
+  return null;
 }
 
 
@@ -103,16 +105,18 @@ exports.html = html;
 
 
 var build = function() {
-    clean();
-    styles(); 
-    scripts(); 
-    lib();
-    image();
-    data();
-    html();
+    clean(function() {
+        styles(); 
+        scripts(); 
+        lib();
+        image();
+        data();
+        html();
+    });
 };
 
 gulp.task('build', build);
 
 gulp.task('default', build);
 
+gulp.task('watch', watch);
