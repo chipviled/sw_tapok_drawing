@@ -54,3 +54,27 @@ For import data from json to database use:
 ./bin/db2json.js 
 ```
 All old data will be deleted.
+
+
+
+# Build Static Sity
+
+First you need export database.
+Than you can build sity with *gulp*:
+```
+ ./node_modules/.bin/gulp
+```
+
+
+
+# Run Static Sity
+
+From project root directory run:
+```
+./bin/sity.sh
+```
+
+After open in your browser `http://localhost:9002`
+
+
+

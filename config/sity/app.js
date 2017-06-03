@@ -4,6 +4,6 @@ var app = express();
 app.use(express.static(__dirname+'/../../build'));
 
 app.listen(9002, function () {
-  console.log('Start static siyt on port 9002.');
+  console.log('Start static sity on port 9002');
 });
 
