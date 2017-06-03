@@ -7,3 +7,4 @@ dist
 public/json
 public/upload
 .buildpath
+build
