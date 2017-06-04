@@ -22,7 +22,7 @@ function template_picture(data) {
     return `
         <div class="picture" data-id="${data.id}">
           <div class="picture_body">
-              <img src="/data/upload/${data.file_path}/thumb_${data.file_name}" title="${data.title}">
+              <img src="../data/upload/${data.file_path}/thumb_${data.file_name}" title="${data.title}">
           </div>
           <div class="picture_title">${data.title}</div>
           <div class="picture_username">${data.user_name}</div>
@@ -32,12 +32,12 @@ function template_picture(data) {
 
 // TODO: Create this with for.
 jQuery.when(
-    jQuery.getJSON('/data/json/picture.json'),
-    jQuery.getJSON('/data/json/users.json'),
-    jQuery.getJSON('/data/json/iteration.json'),
-    jQuery.getJSON('/data/json/achivement.json'),
-    jQuery.getJSON('/data/json/user_achivement.json'),
-    jQuery.getJSON('/data/json/user_vote.json')
+    jQuery.getJSON('../data/json/picture.json'),
+    jQuery.getJSON('../data/json/users.json'),
+    jQuery.getJSON('../data/json/iteration.json'),
+    jQuery.getJSON('../data/json/achivement.json'),
+    jQuery.getJSON('../data/json/user_achivement.json'),
+    jQuery.getJSON('../data/json/user_vote.json')
 ).done(
     function (
         picture,
