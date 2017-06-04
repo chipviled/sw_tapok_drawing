@@ -10,7 +10,7 @@ const autoprefixer = require('gulp-autoprefixer');
 const del = require('del');
 const template = require('gulp-template');
 const dataR = require('gulp-data');
-
+const regeneratorRuntime =  require("regenerator-runtime");
 
 let paths = {
   styles: {
@@ -52,6 +52,7 @@ function styles() {
   return gulp.src(paths.styles.src)
     .pipe(sass())
     .pipe(cleanCSS())
+    .pipe(autoprefixer())
     // pass in options to the stream
     .pipe(rename({
       basename: 'style',
@@ -64,7 +65,7 @@ function scripts() {
   html();
   return gulp.src(paths.scripts.src, { sourcemaps: true })
     .pipe(babel())
-    .pipe(uglify())
+    //.pipe(uglify())
     .pipe(concat('custom.min.js'))
     .pipe(gulp.dest(paths.scripts.dest));
 }
