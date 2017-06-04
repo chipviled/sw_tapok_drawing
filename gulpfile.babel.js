@@ -8,6 +8,9 @@ const cleanCSS = require('gulp-clean-css');
 //const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
 const del = require('del');
+const template = require('gulp-template');
+const dataR = require('gulp-data');
+
 
 let paths = {
   styles: {
@@ -45,6 +48,7 @@ function clean(callback) {
 
 
 function styles() {
+  html();
   return gulp.src(paths.styles.src)
     .pipe(sass())
     .pipe(cleanCSS())
@@ -57,6 +61,7 @@ function styles() {
 }
 
 function scripts() {
+  html();
   return gulp.src(paths.scripts.src, { sourcemaps: true })
     .pipe(babel())
     .pipe(uglify())
@@ -81,6 +86,8 @@ function data() {
 
 function html() {
     return gulp.src(paths.html.src)
+      .pipe(dataR(() => ({autoversion: Date.now()})))
+      .pipe(template())
       .pipe(gulp.dest(paths.html.dest));
   }
 
@@ -120,3 +127,6 @@ gulp.task('build', build);
 gulp.task('default', build);
 
 gulp.task('watch', watch);
+
+gulp.task('clean', clean);
+

@@ -18,15 +18,35 @@
 	<link rel="icon" type="image/png" href="/image/favicon-16x16.png" sizes="16x16">
 	
 	<!--  CSS  -->
+	<link rel="stylesheet" href="/lib/normalize.css">
+	<link rel="stylesheet" href="/lib/flexboxgrid.min.css">
 	
-	<link rel="stylesheet" href="/css/style.css?v=">
+	<link rel="stylesheet" href="/css/style.min.css?v=<%= autoversion %>">
 	
 </head>
 
-<body>
-    <div>text</div>
+
+<body class="wrapper">
+    <div class="container">
+        <div class="row main-row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="main-container">
+                    <h1 class="main-title">Результаты 
+	                    <a href="//sonic-world.ru/forum/topic/23617-/">
+	                        конкурса рисования 
+	                    </a>
+	                    сониковского мира
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     
     <!--  JS  -->
-    <script src="/js/index.min.js?v="></script>
+    <script src="/lib/jquery-3.2.1.min.js"></script>
+    <script src="/lib/modernizr.flexbox.js"></script>
+    
+    <script src="/js/custom.min.js?v=<%= autoversion %>"></script>
 </body>
 

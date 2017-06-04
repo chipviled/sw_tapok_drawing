@@ -10,12 +10,33 @@ $color-dafault-dark:    #00782D;
 $color-dafault-up:      #37DC74;
 $color-dafault-lighter: #63DC90;
 
+
+
 body {
-  font: 100% $font-stack;
-  font-size: $font-size;
-  line-height: 21px;
-  color: $font-color;
-  margin: 0;
-  padding: 0;
-  background-color: $background-color;
+    font: 100% $font-stack;
+    font-size: $font-size;
+    line-height: 21px;
+    color: $font-color;
+    margin: 0;
+    padding: 0;
+    background-color: $background-color;
 }
+
+.main-container {
+    display: block;
+    padding: 10px;
+    //background-color: #FFFFFF;
+}
+
+.main-title {
+    display: block;
+    font-size: 24px;;
+    line-height: 1.2em;
+    text-align: center;
+    color: $color-dafault-dark;
+    
+    a {
+        color: $color-dafault-dark;
+    }
+}
+
