@@ -1,0 +1,21 @@
+$font-stack: Helvetica, Arial, sans-serif;
+$font-color: #333333;
+$font-size: 16px;
+
+$background-color: #FAFFF6;
+
+$color-dafault-main:    #00B945;
+$color-dafault-down:    #238B49;
+$color-dafault-dark:    #00782D;
+$color-dafault-up:      #37DC74;
+$color-dafault-lighter: #63DC90;
+
+body {
+  font: 100% $font-stack;
+  font-size: $font-size;
+  line-height: 21px;
+  color: $font-color;
+  margin: 0;
+  padding: 0;
+  background-color: $background-color;
+}
