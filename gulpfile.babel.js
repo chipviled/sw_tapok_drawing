@@ -40,10 +40,8 @@ let paths = {
 };
 
 
-function clean(callback) {
+function clean() {
   del([ 'build' ]);
-  callback();
-  return null;
 }
 
 
@@ -93,6 +91,7 @@ function html() {
   }
 
 function watch() {
+  build();
   gulp.watch(paths.scripts.src, scripts);
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.lib.src, lib);
@@ -113,14 +112,13 @@ exports.html = html;
 
 
 var build = function() {
-    clean(function() {
-        styles(); 
-        scripts(); 
-        lib();
-        image();
-        data();
-        html();
-    });
+    //clean();
+    styles(); 
+    scripts(); 
+    lib();
+    image();
+    data();
+    html();
 };
 
 gulp.task('build', build);

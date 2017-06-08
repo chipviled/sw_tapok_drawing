@@ -48,7 +48,7 @@ body {
     width: 32px;
     height: 32px;
     content: " ";
-    background-image: url(image/favicon-32x32.png);
+    background-image: url(../image/favicon-32x32.png);
     position: absolute;
     left: -40px;
     }
@@ -58,7 +58,7 @@ body {
 }
 
 .iteration_title {
-    background-color: $color-dafault-dark;
+    background-color: $color-dafault-down;
     color: $font-color-reverse;
     display: block;
     box-sizing: border-box;
@@ -78,7 +78,7 @@ body {
     right:0;
     top: 0;
     border-top: 32px solid $background-color;
-    border-left: 48px solid $color-dafault-dark;
+    border-left: 48px solid $color-dafault-down;
 }
 .iteration_name {
     font-size: 1.4em;
@@ -88,7 +88,7 @@ body {
 }
 
 .iteration {
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 

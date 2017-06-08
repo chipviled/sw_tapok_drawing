@@ -99,7 +99,7 @@ function work(data) {
             `
             , [data.picture, data.users, row_i.id]
         );
-        console.log(pistures_data);
+        //console.log(pistures_data);
         
         for (let row_p of pistures_data) {
             iteration_body.append(jQuery(template_picture(row_p)))
