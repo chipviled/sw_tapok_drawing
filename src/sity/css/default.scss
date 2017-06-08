@@ -21,6 +21,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: $background-color;
+    background-image: url("../image/noise.png");
 }
 
 .main-container {
@@ -59,6 +60,7 @@ body {
 
 .iteration_title {
     background-color: $color-dafault-down;
+    background-image: url("../image/noise.png");
     color: $font-color-reverse;
     display: block;
     box-sizing: border-box;
@@ -70,16 +72,19 @@ body {
     min-width: calc(100% - 48px);
     text-align: left;
     margin-bottom: 8px;
+    border-top-right-radius: 48px;
+    border-bottom-right-radius: 48px;
 }
 
-.iteration_title:after {
-    content: '';
-    position: absolute;
-    right:0;
-    top: 0;
-    border-top: 32px solid $background-color;
-    border-left: 48px solid $color-dafault-down;
-}
+// .iteration_title:after {
+//      content: '';
+//     position: absolute;
+//     right:0;
+//     top: 0;
+//     border-top: 32px solid $background-color;
+//     border-left: 48px solid $color-dafault-down;
+// }
+
 .iteration_name {
     font-size: 1.4em;
 }
