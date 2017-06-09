@@ -69,6 +69,7 @@ body {
     padding-right: 48px;
     position: relative;
     min-height: 32px;
+    min-width: 90%;
     min-width: calc(100% - 48px);
     text-align: left;
     margin-bottom: 8px;
@@ -112,7 +113,9 @@ body {
     height: 160px;
 }
 
-
+.picture_username a {
+    color: $color-dafault-dark;
+}
 
 
 

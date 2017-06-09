@@ -6,29 +6,35 @@ console.log(
 'color:#FFFFFF;background-color:#993399;'
 );
 
+
 function template_iteration(data) {
-    return `
-        <div class="iteration" data-id="${data.id}">
-          <div class="iteration_title">
-           <div class="iteration_name">${data.theme}</div>
-           <div class="iteration_date">${data.date_begin} - ${data.date_end}</div>
-          </div>
-          <div class="iteration_body"></div>
-        </div>
+    let source = `
+    <div class="iteration" data-id="{{id}}">
+      <div class="iteration_title">
+       <div class="iteration_name">{{theme}}</div>
+       <div class="iteration_date">{{date_begin}} - {{date_end}}</div>
+      </div>
+      <div class="iteration_body">
+      
+        {{#each pictures}}
+            <div class="picture" data-id="{{id}}">
+              <div class="picture_body">
+                  <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" title="{{title}}">
+              </div>
+              <div class="picture_title">{{title}}</div>
+              <div class="picture_username">
+                <a href="//sonic-world.ru/forum/user/{{user_sity_id}}-{{user_name}}">{{user_name}}</a>
+              </div>
+            </div>
+        {{/each}}
+        
+      </div>
+    </div>
     `;
+    let template = Handlebars.compile(source);
+    return template(data);
 }
 
-function template_picture(data) {
-    return `
-        <div class="picture" data-id="${data.id}">
-          <div class="picture_body">
-              <img src="./data/upload/${data.file_path}/thumb_${data.file_name}" title="${data.title}">
-          </div>
-          <div class="picture_title">${data.title}</div>
-          <div class="picture_username">${data.user_name}</div>
-        </div>
-    `;
-}
 
 // TODO: Create this with for.
 jQuery.when(
@@ -87,9 +93,6 @@ function work(data) {
     template_iterations.text('');
     
     for (let row_i of iterations_data) {
-        let t_object = jQuery(template_iteration(row_i));
-        let iteration_body = t_object.find('.iteration_body');
-        
         let pistures_data = alasql(`
             SELECT p.*, u.name AS user_name, u.sity_id AS user_sity_id
             FROM ? p
@@ -99,11 +102,10 @@ function work(data) {
             `
             , [data.picture, data.users, row_i.id]
         );
-        //console.log(pistures_data);
+
+        row_i.pictures = pistures_data;
         
-        for (let row_p of pistures_data) {
-            iteration_body.append(jQuery(template_picture(row_p)))
-        }
+        let t_object = jQuery(template_iteration(row_i));
         
         template_iterations.append(t_object);
     }
