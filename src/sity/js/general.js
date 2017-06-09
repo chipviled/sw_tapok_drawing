@@ -70,18 +70,8 @@ jQuery.when(
 
 
 function work(data) {
-//     let res = alasql(`
-//         SELECT p.*, i.*, p.id AS picture_id, i.id AS iteration_id
-//         FROM ? p
-//         LEFT JOIN ? i ON p.iteration_id = i.id
-//         ORDER BY i.date_begin DESC, p.id
-//         `
-//         , [data.picture, data.iteration]
-//     );
-//     console.log(res);
 
     let template_iterations = jQuery('.iterations');
-    
     let iterations_data = alasql(`
         SELECT i.*
         FROM ? i
