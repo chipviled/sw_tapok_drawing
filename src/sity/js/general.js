@@ -17,12 +17,12 @@ function template_iteration(data) {
       <div class="iteration_body" itemscope itemtype="http://schema.org/ImageGallery">
       
         {{#each pictures}}
-            <figure itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <figure class="picture" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                 <a href="./data/upload/{{file_path}}/{{file_name}}" 
                         class="picture_body"
                         itemprop="contentUrl" 
                         data-size="{{pict_width}}x{{pict_height}}">
-                    <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" itemprop="thumbnail" alt="picture" />
+                    <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" itemprop="thumbnail" alt="pict" />
                 </a>
                 
                 <figcaption itemprop="caption description">
