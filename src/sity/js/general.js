@@ -17,12 +17,14 @@ function template_iteration(data) {
       <div class="iteration_body" itemscope itemtype="http://schema.org/ImageGallery">
       
         {{#each pictures}}
-            <figure class="picture" itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <figure class="picture {{#is_win_null}}picture_win{{/is_win_null}} "
+                     itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                 <a href="./data/upload/{{file_path}}/{{file_name}}" 
-                        class="picture_body"
+                        class="picture_body "
                         itemprop="contentUrl" 
                         data-size="{{pict_width}}x{{pict_height}}">
-                    <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" itemprop="thumbnail" alt="pict" />
+                    <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" 
+                            itemprop="thumbnail" alt="pict" />
                 </a>
                 
                 <figcaption itemprop="caption description">
@@ -43,42 +45,42 @@ function template_iteration(data) {
 
 function template_photoswipe() {
     return `
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="pswp__bg"></div>
-    <div class="pswp__scroll-wrap">
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
-        <div class="pswp__ui pswp__ui--hidden">
-            <div class="pswp__top-bar">
-                <div class="pswp__counter"></div>
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-                <button class="pswp__button pswp__button--share" title="Share"></button>
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                          <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                          </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div> 
+                </div>
+                <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+                </button>
+                <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+                </button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 `
 }
 
@@ -341,7 +343,10 @@ function work(data) {
     
     for (let row_i of iterations_data) {
         let pistures_data = alasql(`
-            SELECT p.*, u.name AS user_name, u.sity_id AS user_sity_id
+            SELECT p.*, 
+              u.name AS user_name, 
+              u.sity_id AS user_sity_id,
+              IF(p.is_win > 0, true, NULL) AS is_win_null
             FROM ? p
             LEFT JOIN ? u ON u.id = p.user_id
             WHERE p.iteration_id = ?

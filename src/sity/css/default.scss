@@ -107,18 +107,42 @@ body {
 .picture {
     width: 160px;
     margin: 8px;
+    position: relative;
+        text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    word-wrap: normal;
+    text-overflow: clip;
 }
 
 .picture_body {
     width: 160px;
     height: 160px;
+    position: relative;
 }
 
 .picture_username a {
     color: $color-dafault-dark;
 }
 
-
+.picture_win:before {
+    content: 'W I N';
+    width: 160px;
+    //height: 32px;
+    background-color: #FF6633;
+    color: #FFFFFF;
+    z-index: 101;
+    position: absolute;
+    top: 12px;
+    left: -56px;
+    padding: 2px;
+    
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
 
 
 
