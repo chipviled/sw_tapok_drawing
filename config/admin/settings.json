@@ -281,6 +281,26 @@
                 }
             },
             {
+                "name": "is_win",
+                "verbose": "is_win",
+                "control": {
+                    "radio": true,
+                    "options": [
+                        "True",
+                        "False"
+                    ]
+                },
+                "type": "BOOLEAN",
+                "allowNull": false,
+                "defaultValue": false,
+                "listview": {
+                    "show": true
+                },
+                "editview": {
+                    "show": true
+                }
+            },
+            {
                 "name": "created_at",
                 "verbose": "created_at",
                 "control": {
@@ -509,29 +529,6 @@
                 },
                 "type": "INTEGER",
                 "allowNull": false,
-                "defaultValue": null,
-                "listview": {
-                    "show": true
-                },
-                "editview": {
-                    "show": true
-                }
-            },
-            {
-                "name": "win_user_id",
-                "verbose": "win_user_id",
-                "control": {
-                    "select": true
-                },
-                "oneToMany": {
-                    "table": "users",
-                    "pk": "id",
-                    "columns": [
-                        "name"
-                    ]
-                },
-                "type": "INTEGER",
-                "allowNull": true,
                 "defaultValue": null,
                 "listview": {
                     "show": true

@@ -16,6 +16,7 @@ CREATE TABLE picture
   vote INTEGER NOT NULL DEFAULT 0,
 --  vote_users TEXT,
   iteration_id INTEGER,
+  is_win BOOLEAN DEFAULT FALSE,
   created_at DATE,
   updated_at DATE
 );
@@ -33,7 +34,7 @@ CREATE TABLE iteration
   date_end DATETIME,
   theme TEXT NOT NULL,
   theme_user_id INTEGER NOT NULL,
-  win_user_id INTEGER,
+-- win_user_id INTEGER,
   description TEXT
 );
 
