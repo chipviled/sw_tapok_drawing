@@ -17,8 +17,11 @@ function template_iteration(data) {
       <div class="iteration_body" itemscope itemtype="http://schema.org/ImageGallery">
       
         {{#each pictures}}
-            <figure class="picture {{#is_win_null}}picture_win{{/is_win_null}} "
-                     itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
+            <figure class="picture 
+                    {{#is_win_null}}picture_win{{/is_win_null}} 
+                    {{#if is_voted}}{{else}}picture__not-voted{{/if}} 
+                    "
+                    itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
                 <a href="./data/upload/{{file_path}}/{{file_name}}" 
                         class="picture_body "
                         itemprop="contentUrl" 

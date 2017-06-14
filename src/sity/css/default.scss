@@ -106,13 +106,14 @@ body {
 
 .picture {
     width: 160px;
-    margin: 8px;
+    margin: 4px;
     position: relative;
-        text-align: center;
+    text-align: center;
     overflow: hidden;
     white-space: nowrap;
     word-wrap: normal;
     text-overflow: clip;
+    padding: 4px;
 }
 
 .picture_body {
@@ -145,6 +146,8 @@ body {
     transform: rotate(-45deg);
 }
 
-
-
+.picture__not-voted {
+    background-color: #fff4d8;
+    background-image: repeating-linear-gradient(-45deg, #fff4d8, #CCCCCC 1px, #CCCCCC 30px, #fff4d8 31px, #fff4d8 60px);
+}
 
