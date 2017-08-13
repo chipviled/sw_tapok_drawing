@@ -296,12 +296,12 @@ function initPhotoSwipeFromDOM(gallerySelector) {
 
 // TODO: Create this with for.
 jQuery.when(
-    jQuery.getJSON('./data/json/picture.json'),
-    jQuery.getJSON('./data/json/users.json'),
-    jQuery.getJSON('./data/json/iteration.json'),
-    jQuery.getJSON('./data/json/achivement.json'),
-    jQuery.getJSON('./data/json/user_achivement.json'),
-    jQuery.getJSON('./data/json/user_vote.json')
+    jQuery.getJSON('./data/json/picture.json' + '?v=' + config.v),
+    jQuery.getJSON('./data/json/users.json' + '?v=' + config.v),
+    jQuery.getJSON('./data/json/iteration.json' + '?v=' + config.v),
+    jQuery.getJSON('./data/json/achivement.json' + '?v=' + config.v),
+    jQuery.getJSON('./data/json/user_achivement.json' + '?v=' + config.v),
+    jQuery.getJSON('./data/json/user_vote.json' + '?v=' + config.v)
 ).done(
     function (
         picture,

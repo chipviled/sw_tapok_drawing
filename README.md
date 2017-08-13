@@ -64,7 +64,10 @@ Than you can build sity with *gulp*:
 ```
  ./node_modules/.bin/gulp
 ```
-
+or
+```
+ ./bin/gulp
+```
 
 
 # Run Static Sity
