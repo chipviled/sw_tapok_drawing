@@ -41,40 +41,31 @@ function template_iteration(data) {
 
 
 // TODO: Create this with for.
-jQuery.when(
+Promise.all([
     jQuery.getJSON('./data/json/picture.json' + '?v=' + config.v),
     jQuery.getJSON('./data/json/users.json' + '?v=' + config.v),
     jQuery.getJSON('./data/json/iteration.json' + '?v=' + config.v),
     jQuery.getJSON('./data/json/achivement.json' + '?v=' + config.v),
     jQuery.getJSON('./data/json/user_achivement.json' + '?v=' + config.v),
     jQuery.getJSON('./data/json/user_vote.json' + '?v=' + config.v)
-).done(
-    function (
-        picture,
-        users,
-        iteration,
-        achivement,
-        user_achivement,
-        user_vote
-    ) {
+]).then(
+    function (values) {
         let data = {
-            picture: picture[0],
-            users: users[0],
-            iteration: iteration[0],
-            achivement: achivement[0],
-            user_achivement: user_achivement[0],
-            user_vote: user_vote[0]
+            picture: values[0],
+            users: values[1],
+            iteration: values[2],
+            achivement: values[3],
+            user_achivement: values[4],
+            user_vote: values[5]
         };
-        
-        work(data);
 
-//        jQuery('body').append(jQuery(template_photoswipe()));
+        work(data);
         new photoswipe_init('.gallery');
 
+    }, function(e) {
+        console.log('Error from load data.', e);
     }
-).fail(function(e) {
-    console.log('Error from load data.', e);
-});
+);
 
 
 function work(data) {
