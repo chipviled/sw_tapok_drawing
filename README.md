@@ -51,7 +51,7 @@ For export database data to json (static sity public data) use:
 
 For import data from json to database use:
 ```
-./bin/db2json.js 
+./bin/json2db.js 
 ```
 All old data will be deleted.
 
