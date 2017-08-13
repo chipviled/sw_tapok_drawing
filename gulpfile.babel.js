@@ -19,7 +19,7 @@ let paths = {
     dest: 'build/css/'
   },
   scripts: {
-    src: 'src/sity/js/main.js',
+    src: 'src/sity/js/_include.js',
     dest: 'build/js/'
   },
   lib: {
@@ -63,10 +63,10 @@ function styles() {
 function scripts() {
   html();
   return gulp.src(paths.scripts.src, { sourcemaps: true })
-    .pipe(babel())
     .pipe(include())
         .on('error', console.log)
-     //.pipe(uglify())
+    .pipe(babel())
+    //.pipe(uglify())
     .pipe(concat('custom.min.js'))
     .pipe(gulp.dest(paths.scripts.dest));
 }
