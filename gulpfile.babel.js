@@ -11,6 +11,7 @@ const del = require('del');
 const template = require('gulp-template');
 const dataR = require('gulp-data');
 const regeneratorRuntime =  require("regenerator-runtime");
+const include = require('gulp-include');
 
 let paths = {
   styles: {
@@ -18,7 +19,7 @@ let paths = {
     dest: 'build/css/'
   },
   scripts: {
-    src: 'src/sity/js/**/*.js',
+    src: 'src/sity/js/main.js',
     dest: 'build/js/'
   },
   lib: {
@@ -63,7 +64,9 @@ function scripts() {
   html();
   return gulp.src(paths.scripts.src, { sourcemaps: true })
     .pipe(babel())
-    //.pipe(uglify())
+    .pipe(include())
+        .on('error', console.log)
+     //.pipe(uglify())
     .pipe(concat('custom.min.js'))
     .pipe(gulp.dest(paths.scripts.dest));
 }
