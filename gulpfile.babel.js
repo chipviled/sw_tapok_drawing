@@ -22,6 +22,10 @@ let paths = {
     src: 'src/sity/js/_include.js',
     dest: 'build/js/'
   },
+  scripts_watch: {
+      src: 'src/sity/js/**/*.js',
+      dest: 'build/js/'
+    },
   lib: {
     src: 'lib/**',
     dest: 'build/lib/'
@@ -95,7 +99,7 @@ function html() {
 
 function watch() {
   build();
-  gulp.watch(paths.scripts.src, scripts);
+  gulp.watch(paths.scripts_watch.src, scripts);
   gulp.watch(paths.styles.src, styles);
   gulp.watch(paths.lib.src, lib);
   gulp.watch(paths.image.src, image);
