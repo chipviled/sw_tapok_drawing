@@ -58,6 +58,12 @@ body {
     text-align:center;
 }
 
+.iterations {
+    list-style-type: none;
+    margin: 0;
+    paddong: 0;
+}
+
 .iteration_title {
     background-color: $color-dafault-down;
     background-image: url("../image/noise.png");

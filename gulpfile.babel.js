@@ -27,7 +27,11 @@ let paths = {
       dest: 'build/js/'
     },
   lib: {
-    src: 'lib/**',
+    src: [
+        'lib/**', 
+        'node_modules/vue/dist/vue.min.js',
+        'node_modules/vue-resource/dist/vue-resource.min.js',
+        ],
     dest: 'build/lib/'
   },
   image: {

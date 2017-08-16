@@ -42,21 +42,21 @@ function template_iteration(data) {
 
 // TODO: Create this with for.
 Promise.all([
-    jQuery.getJSON('./data/json/picture.json' + '?v=' + config.v),
-    jQuery.getJSON('./data/json/users.json' + '?v=' + config.v),
-    jQuery.getJSON('./data/json/iteration.json' + '?v=' + config.v),
-    jQuery.getJSON('./data/json/achivement.json' + '?v=' + config.v),
-    jQuery.getJSON('./data/json/user_achivement.json' + '?v=' + config.v),
-    jQuery.getJSON('./data/json/user_vote.json' + '?v=' + config.v)
+    Vue.http.get('./data/json/picture.json' + '?v=' + config.v),
+    Vue.http.get('./data/json/users.json' + '?v=' + config.v),
+    Vue.http.get('./data/json/iteration.json' + '?v=' + config.v),
+    Vue.http.get('./data/json/achivement.json' + '?v=' + config.v),
+    Vue.http.get('./data/json/user_achivement.json' + '?v=' + config.v),
+    Vue.http.get('./data/json/user_vote.json' + '?v=' + config.v)
 ]).then(
     function (values) {
         let data = {
-            picture: values[0],
-            users: values[1],
-            iteration: values[2],
-            achivement: values[3],
-            user_achivement: values[4],
-            user_vote: values[5]
+            picture: values[0].body,
+            users: values[1].body,
+            iteration: values[2].body,
+            achivement: values[3].body,
+            user_achivement: values[4].body,
+            user_vote: values[5].body
         };
 
         work(data);
@@ -64,13 +64,13 @@ Promise.all([
 
     }, function(e) {
         console.log('Error from load data.', e);
+        document.getElementById("loader").innerHTML = 'Error from load data. :(';
     }
 );
 
 
 function work(data) {
-
-    let template_iterations = jQuery('.iterations');
+    let template_iterations = document.getElementById("iterations");
     let iterations_data = alasql(`
         SELECT i.*
         FROM ? i
@@ -79,7 +79,7 @@ function work(data) {
         , [data.iteration]
     );
 
-    template_iterations.text('');
+    template_iterations.innerHTML = '';
     
     for (let row_i of iterations_data) {
         let pistures_data = alasql(`
@@ -97,9 +97,9 @@ function work(data) {
 
         row_i.pictures = pistures_data;
         
-        let t_object = jQuery(template_iteration(row_i));
-        
-        template_iterations.append(t_object);
+        let t_object = document.createElement('li');
+        t_object.innerHTML = template_iteration(row_i);
+        template_iterations.appendChild(t_object);
     }
     
 }
