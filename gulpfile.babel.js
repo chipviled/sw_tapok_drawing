@@ -58,8 +58,8 @@ let paths = {
 
 let env = gutil.env.env || 'dev';
 let dev = (env === 'dev') ? true : false;
-if (dev) gutil.log('--- DEVELOP mode ---') 
-    else gutil.log('>>> PRODACTION mode <<<');
+if (dev) gutil.log(gutil.colors.cyan('[!] Development mode ON. Use key `--env=prod` for production.')) 
+    else gutil.log(gutil.colors.cyan('>>> PRODUCTION MODE <<<'));
 
 
 function clean() {  
