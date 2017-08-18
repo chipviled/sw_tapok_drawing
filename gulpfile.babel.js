@@ -7,11 +7,13 @@ const rename = require('gulp-rename');
 const cleanCSS = require('gulp-clean-css');
 //const sourcemaps = require('gulp-sourcemaps');
 const autoprefixer = require('gulp-autoprefixer');
-const del = require('del');
+const cleanR = require('gulp-clean');
 const template = require('gulp-template');
 const dataR = require('gulp-data');
-const regeneratorRuntime =  require("regenerator-runtime");
+//const regeneratorRuntime =  require("regenerator-runtime");
 const include = require('gulp-include');
+const gutil = require('gulp-util');
+const inject = require('gulp-inject');
 
 let paths = {
   styles: {
@@ -28,9 +30,15 @@ let paths = {
     },
   lib: {
     src: [
-        'lib/**', 
+        'lib/**'
+        ],
+    src_prod: [
         'node_modules/vue/dist/vue.min.js',
         'node_modules/vue-resource/dist/vue-resource.min.js',
+        ],
+    src_dev: [
+        'node_modules/vue/dist/vue.js',
+        'node_modules/vue-resource/dist/vue-resource.js',
         ],
     dest: 'build/lib/'
   },
@@ -48,11 +56,16 @@ let paths = {
   }
 };
 
+let env = gutil.env.env || 'dev';
+let dev = (env === 'dev') ? true : false;
+if (dev) gutil.log('--- DEVELOP mode ---') 
+    else gutil.log('>>> PRODACTION mode <<<');
 
-function clean() {
-  del([ 'build' ]);
+
+function clean() {  
+    return gulp.src('build', {read: false})
+        .pipe(cleanR());
 }
-
 
 function styles() {
   html();
@@ -74,7 +87,7 @@ function scripts() {
     .pipe(include())
         .on('error', console.log)
     .pipe(babel())
-    //.pipe(uglify())
+    .pipe(!dev ? uglify() : gutil.noop())
     .pipe(concat('custom.min.js'))
     .pipe(gulp.dest(paths.scripts.dest));
 }
@@ -83,6 +96,12 @@ function lib() {
     return gulp.src(paths.lib.src)
       .pipe(gulp.dest(paths.lib.dest));
   }
+
+function lib_from_modules() {
+    return gulp.src(dev ? paths.lib.src_dev : paths.lib.src_prod)
+      .pipe(gulp.dest(paths.lib.dest));
+  }
+
 
 function image() {
     return gulp.src(paths.image.src)
@@ -98,17 +117,18 @@ function html() {
     return gulp.src(paths.html.src)
       .pipe(dataR(() => ({autoversion: Date.now()})))
       .pipe(template())
+      .pipe(inject(lib_from_modules(), {ignorePath: '/build/', addRootSlash:false}))
       .pipe(gulp.dest(paths.html.dest));
   }
 
 function watch() {
-  build();
-  gulp.watch(paths.scripts_watch.src, scripts);
-  gulp.watch(paths.styles.src, styles);
-  gulp.watch(paths.lib.src, lib);
-  gulp.watch(paths.image.src, image);
-  gulp.watch(paths.data.src, data);
-  gulp.watch(paths.html.src, html);
+    build();
+    gulp.watch(paths.scripts_watch.src, scripts);
+    gulp.watch(paths.styles.src, styles);
+    gulp.watch(paths.lib.src, lib);
+    gulp.watch(paths.image.src, image);
+    gulp.watch(paths.data.src, data);
+    gulp.watch(paths.html.src, html);
 }
 
 
