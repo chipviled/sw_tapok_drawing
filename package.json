@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "async": "^2.3.0",
+    "blazy": "^1.8.2",
     "deasync": "^0.1.9",
     "express": "^4.15.2",
     "express-admin": "^1.2.8",

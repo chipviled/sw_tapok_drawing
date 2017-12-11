@@ -18,8 +18,10 @@ function template_iteration(data) {
                         class="picture_body "
                         itemprop="contentUrl" 
                         data-size="{{pict_width}}x{{pict_height}}">
-                    <img src="./data/upload/{{file_path}}/thumb_{{file_name}}" 
-                            itemprop="thumbnail" alt="pict" />
+                    <img class="b-lazy" 
+                        src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
+                        data-src="./data/upload/{{file_path}}/thumb_{{file_name}}" 
+                        itemprop="thumbnail" alt="pict" />
                 </a>
                 
                 <figcaption itemprop="caption description">
@@ -101,6 +103,10 @@ function work(data) {
         t_object.innerHTML = template_iteration(row_i);
         template_iterations.appendChild(t_object);
     }
+    
+    let bLazy = new Blazy({
+        // options
+    });
     
 }
 

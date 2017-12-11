@@ -35,10 +35,12 @@ let paths = {
     src_prod: [
         'node_modules/vue/dist/vue.min.js',
         'node_modules/vue-resource/dist/vue-resource.min.js',
+        'node_modules/blazy/blazy.min.js'
         ],
     src_dev: [
         'node_modules/vue/dist/vue.js',
         'node_modules/vue-resource/dist/vue-resource.js',
+        'node_modules/blazy/blazy.js'
         ],
     dest: 'build/lib/'
   },
