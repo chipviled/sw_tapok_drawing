@@ -27,7 +27,7 @@ body {
 .main-container {
     position: relative;
     display: block;
-    padding: 10px;
+    padding: 0;
     //background-color: #FFFFFF;
 }
 
@@ -39,6 +39,7 @@ body {
     text-align: center;
     color: $color-dafault-dark;
     margin-left: 44px;
+    margin-right: 44px;
     
     a {
         color: $color-dafault-dark;
@@ -61,7 +62,7 @@ body {
 .iterations {
     list-style-type: none;
     margin: 0;
-    paddong: 0;
+    padding: 0;
 }
 
 .iteration_title {
@@ -77,6 +78,7 @@ body {
     min-height: 32px;
     min-width: 90%;
     min-width: calc(100% - 48px);
+    max-width: 100%;
     text-align: left;
     margin-bottom: 8px;
     border-top-right-radius: 48px;
@@ -112,19 +114,26 @@ body {
 
 .picture {
     width: 160px;
-    margin: 4px;
+    margin: 2px;
     position: relative;
     text-align: center;
     overflow: hidden;
     white-space: nowrap;
     word-wrap: normal;
     text-overflow: clip;
-    padding: 4px;
+    padding: 2px;
+    padding-bottom: 4px;
 }
 
 .picture_body {
     width: 160px;
     height: 160px;
+    position: relative;
+}
+
+.picture_body img {
+    min-width: 160px;
+    min-height: 160px;
     position: relative;
 }
 
@@ -155,5 +164,24 @@ body {
 .picture__not-voted {
     background-color: #fff4d8;
     background-image: repeating-linear-gradient(-45deg, #fff4d8, #CCCCCC 1px, #CCCCCC 30px, #fff4d8 31px, #fff4d8 60px);
+}
+
+.container-fluid  {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+@media only screen and (min-width:48em) {
+    .container-fluid  {
+        padding-right: 2rem;
+        padding-left: 2rem;
+    }
+}
+
+@media only screen and (min-width:75em) {
+    .container-fluid  {
+        padding-right: 10%;
+        padding-left: 10%;
+    }
 }
 
