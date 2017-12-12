@@ -4,7 +4,9 @@ function template_iteration(data) {
     <div class="iteration gallery" data-id="{{id}}">
       <div class="iteration_title">
        <div class="iteration_name">{{theme}}</div>
-       <div class="iteration_date">{{date_begin}} - {{date_end}}</div>
+       {{#if date_begin}}
+         <div class="iteration_date">{{date_begin}} - {{date_end}}</div>
+       {{/if}}
       </div>
       <div class="iteration_body" itemscope itemtype="http://schema.org/ImageGallery">
       
@@ -60,9 +62,11 @@ Promise.all([
             user_achivement: values[4].body,
             user_vote: values[5].body
         };
+        window.swtd_data = data;
+
+        top_menu();
 
         work(data);
-        new photoswipe_init('.gallery');
 
     }, function(e) {
         console.log('Error from load data.', e);
@@ -103,11 +107,92 @@ function work(data) {
         t_object.innerHTML = template_iteration(row_i);
         template_iterations.appendChild(t_object);
     }
-    
+
     let bLazy = new Blazy({
         // options
     });
+    new photoswipe_init('.gallery');
+}
+
+
+function user_pictures_list(data) {
+    let template_iterations = document.getElementById("iterations");
+    let iterations_data = alasql(`
+        SELECT u.*, 
+          COUNT(p.id) AS count_pictures,
+          u.name AS theme
+        FROM ? u
+        LEFT JOIN ? p ON u.id = p.user_id
+        GROUP BY u.id
+        HAVING COUNT(p.id) > 0
+        ORDER BY COUNT(p.id) DESC;
+        `
+        , [data.users, data.picture]
+    );
+
+    template_iterations.innerHTML = '';
     
+    for (let row_i of iterations_data) {
+        let pistures_data = alasql(`
+            SELECT p.*, 
+              u.name AS user_name, 
+              u.sity_id AS user_sity_id,
+              IF(p.is_win > 0, true, NULL) AS is_win_null
+            FROM ? p
+            LEFT JOIN ? u ON u.id = p.user_id
+            WHERE u.id = ?
+            ORDER BY p.id
+            `
+            , [data.picture, data.users, row_i.id]
+        );
+
+        row_i.pictures = pistures_data;
+        
+        let t_object = document.createElement('li');
+        t_object.innerHTML = template_iteration(row_i);
+        template_iterations.appendChild(t_object);
+    }
+
+    let bLazy = new Blazy({
+        // options
+    });
+    new photoswipe_init('.gallery');
+}
+
+
+function top_menu() {
+    let template = `
+        <select class="top-menu__wiev-select" v-model="selected" v-on:change="selecting">
+            <option v-for="option in options" v-bind:value="option.value">
+                {{ option.text }}
+            </option>
+        </select>
+    `;
+    document.getElementById('top-menu').innerHTML = template;
+    
+    new Vue({
+        el: '.top-menu__wiev-select',
+        data: {
+          selected: 'iteration',
+          options: [
+            { text: 'Этапы', value: 'iteration' },
+            { text: 'Пользователи', value: 'user' }
+          ]
+        },
+        methods: {
+            selecting: function (event) {
+              console.log('>>>', this.selected);
+              if (this.selected === 'iteration') {
+                  work(window.swtd_data);
+                  return;
+              }
+              if (this.selected === 'user') {
+                  user_pictures_list(window.swtd_data);
+                  return;
+              }
+            }
+          }
+      })
 }
 
 
