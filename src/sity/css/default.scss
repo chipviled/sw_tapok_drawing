@@ -63,6 +63,16 @@ body {
     margin-bottom: 16px;
 }
 
+.top-menu__wiev-select {
+   background: transparent;
+   width: 150px;
+   font-size: 16px;
+   border: 1px solid $color-dafault-dark:;
+   height: 34px;
+   cursor: pointer;
+} 
+
+
 .iterations {
     list-style-type: none;
     margin: 0;
