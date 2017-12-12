@@ -11,7 +11,7 @@ $color-dafault-dark:    #00782D;
 $color-dafault-up:      #37DC74;
 $color-dafault-lighter: #63DC90;
 
-
+$color-ui-main: #CCCCCC;
 
 body {
     font: 100% $font-stack;
@@ -67,7 +67,7 @@ body {
    background: transparent;
    width: 150px;
    font-size: 16px;
-   border: 1px solid $color-dafault-dark:;
+   border: 1px solid $color-ui-main;
    height: 34px;
    cursor: pointer;
 } 
