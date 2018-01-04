@@ -3,38 +3,56 @@ function template_iteration(data) {
     let source = `
     <div class="iteration gallery" data-id="{{id}}">
       <div class="iteration_title">
-       <div class="iteration_name">{{theme}}</div>
-       {{#if date_begin}}
-         <div class="iteration_date">{{date_begin}} - {{date_end}}</div>
-       {{/if}}
+           {{#if iteration_name}}
+               <div class="iteration_name">{{iteration_name}}</div>
+           {{/if}}
+           {{#if user_name}}
+               <div class="iteration_name">
+                   <a href="//sonic-world.ru/forum/user/{{user_sity_id}}-{{user_name}}">{{user_name}}</a>
+               </div>
+           {{/if}}
+           
+           {{#if date_begin}}
+             <div class="iteration_date">{{date_begin}} - {{date_end}}</div>
+           {{/if}}
+           {{#if count_pictures}}
+             <div class="iteration_info">Рисунков: {{count_pictures}}</div>
+           {{/if}}
       </div>
       <div class="iteration_body" itemscope itemtype="http://schema.org/ImageGallery">
-      
+
         {{#each pictures}}
-            <figure class="picture 
-                    {{#is_win_null}}picture_win{{/is_win_null}} 
-                    {{#if is_voted}}{{else}}picture__not-voted{{/if}} 
+            <figure class="picture
+                    {{#is_win_null}}picture_win{{/is_win_null}}
+                    {{#if is_voted}}{{else}}picture__not-voted{{/if}}
                     "
                     itemprop="associatedMedia" itemscope itemtype="http://schema.org/ImageObject">
-                <a href="./data/upload/{{file_path}}/{{file_name}}" 
+                <a href="./data/upload/{{file_path}}/{{file_name}}"
                         class="picture_body "
-                        itemprop="contentUrl" 
+                        itemprop="contentUrl"
                         data-size="{{pict_width}}x{{pict_height}}">
-                    <img class="b-lazy" 
+                    <img class="b-lazy"
                         src=data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==
-                        data-src="./data/upload/{{file_path}}/thumb_{{file_name}}" 
+                        data-src="./data/upload/{{file_path}}/thumb_{{file_name}}"
                         itemprop="thumbnail" alt="pict" />
                 </a>
-                
+
                 <figcaption itemprop="caption description">
                 <div class="picture_title">{{title}}</div>
-                <div class="picture_username">
-                    <a href="//sonic-world.ru/forum/user/{{user_sity_id}}-{{user_name}}">{{user_name}}</a>
-                </div>
+                {{#if user_name}}
+                    <div class="picture_username">
+                        <a href="//sonic-world.ru/forum/user/{{user_sity_id}}-{{user_name}}">{{user_name}}</a>
+                    </div>
+                {{/if}}
+                {{#if picture_iteration_name}}
+                    <div class="picture_iteration_name">
+                        ({{picture_iteration_name}})
+                    </div>
+                {{/if}}
                 </figcaption>
             </figure>
         {{/each}}
-        
+
       </div>
     </div>
     `;
@@ -66,7 +84,7 @@ Promise.all([
 
         top_menu();
 
-        work(data);
+        iteration_pictures_list(data);
 
     }, function(e) {
         console.log('Error from load data.', e);
@@ -75,34 +93,44 @@ Promise.all([
 );
 
 
-function work(data) {
+/**
+ * @param data
+ * @param config
+ * @returns
+ */
+function iteration_pictures_list(data, config = {}) {
+    let iteration_data_by_user = (config.iteration_data_by_user === 'ASC')?'ASC':'DESC';
+    let order_by_picture = (config.order_by_picture === 'DESC')?'DESC':'ASC';
+
+    
     let template_iterations = document.getElementById("iterations");
     let iterations_data = alasql(`
-        SELECT i.*
+        SELECT i.*,
+            i.theme AS iteration_name
         FROM ? i
-        ORDER BY i.date_begin DESC
+        ORDER BY i.date_begin ${iteration_data_by_user}
         `
         , [data.iteration]
     );
 
     template_iterations.innerHTML = '';
-    
+
     for (let row_i of iterations_data) {
         let pistures_data = alasql(`
-            SELECT p.*, 
-              u.name AS user_name, 
+            SELECT p.*,
+              u.name AS user_name,
               u.sity_id AS user_sity_id,
               IF(p.is_win > 0, true, NULL) AS is_win_null
             FROM ? p
             LEFT JOIN ? u ON u.id = p.user_id
             WHERE p.iteration_id = ?
-            ORDER BY p.id
+            ORDER BY p.id ${order_by_picture}
             `
             , [data.picture, data.users, row_i.id]
         );
 
         row_i.pictures = pistures_data;
-        
+
         let t_object = document.createElement('li');
         t_object.innerHTML = template_iteration(row_i);
         template_iterations.appendChild(t_object);
@@ -114,40 +142,106 @@ function work(data) {
     new photoswipe_init('.gallery');
 }
 
-
-function user_pictures_list(data) {
+/**
+ * @param data
+ * @param config
+ * @returns
+ */
+function user_pictures_list(data, config = {}) {
+    let order_by_user = (config.order_by_user === 'ASC')?'ASC':'DESC';
+    let order_by_picture = (config.order_by_picture === 'ASC')?'ASC':'DESC';
+    
     let template_iterations = document.getElementById("iterations");
     let iterations_data = alasql(`
-        SELECT u.*, 
+        SELECT u.*,
           COUNT(p.id) AS count_pictures,
-          u.name AS theme
+          u.name AS user_name,
+          u.sity_id AS user_sity_id
         FROM ? u
         LEFT JOIN ? p ON u.id = p.user_id
         GROUP BY u.id
         HAVING COUNT(p.id) > 0
-        ORDER BY COUNT(p.id) DESC;
+        ORDER BY COUNT(p.id) ${order_by_user};
         `
         , [data.users, data.picture]
     );
 
     template_iterations.innerHTML = '';
-    
+
     for (let row_i of iterations_data) {
         let pistures_data = alasql(`
-            SELECT p.*, 
-              u.name AS user_name, 
+            SELECT p.*,
               u.sity_id AS user_sity_id,
-              IF(p.is_win > 0, true, NULL) AS is_win_null
+              IF(p.is_win > 0, true, NULL) AS is_win_null,
+              i.theme AS picture_iteration_name
             FROM ? p
             LEFT JOIN ? u ON u.id = p.user_id
+            LEFT JOIN ? i ON p.iteration_id = i.id
             WHERE u.id = ?
-            ORDER BY p.id
+            ORDER BY p.id ${order_by_picture}
             `
-            , [data.picture, data.users, row_i.id]
+            , [data.picture, data.users, data.iteration, row_i.id]
         );
 
         row_i.pictures = pistures_data;
+
+        let t_object = document.createElement('li');
+        t_object.innerHTML = template_iteration(row_i);
+        template_iterations.appendChild(t_object);
+    }
+
+    let bLazy = new Blazy({
+        // options
+    });
+    new photoswipe_init('.gallery');
+}
+
+/**
+ * @param data
+ * @param config
+ * @returns
+ */
+function user_name_pictures_list(data, config = {}) {
+    let order_by_user_name = (config.order_by_user_name === 'ASC')?'ASC':'DESC';
+    let order_by_picture = (config.order_by_picture === 'ASC')?'ASC':'DESC';
         
+    let template_iterations = document.getElementById("iterations");
+    let iterations_data = alasql(`
+        SELECT u.*,
+          u.id AS id, 
+          u.sity_id AS user_sity_id,
+          u.name AS user_name,
+          COUNT(p.id) AS count_pictures
+        FROM ? u
+        LEFT JOIN ? p ON u.id = p.user_id
+        GROUP BY u.id
+        HAVING COUNT(p.id) > 0
+        ORDER BY u.user_name ${order_by_user_name}
+        `
+        , [data.users, data.picture]
+    );
+    
+    console.log(iterations_data);
+    
+    template_iterations.innerHTML = '';
+
+    for (let row_i of iterations_data) {
+        let pistures_data = alasql(`
+            SELECT p.*,
+              u.sity_id AS user_sity_id,
+              IF(p.is_win > 0, true, NULL) AS is_win_null,
+              i.theme AS picture_iteration_name
+            FROM ? p
+            LEFT JOIN ? u ON u.id = p.user_id
+            LEFT JOIN ? i ON p.iteration_id = i.id
+            WHERE u.id = ?
+            ORDER BY p.id ${order_by_picture}
+            `
+            , [data.picture, data.users, data.iteration, row_i.id]
+        );
+
+        row_i.pictures = pistures_data;
+
         let t_object = document.createElement('li');
         t_object.innerHTML = template_iteration(row_i);
         template_iterations.appendChild(t_object);
@@ -160,6 +254,10 @@ function user_pictures_list(data) {
 }
 
 
+/**
+ * Top menu initial.
+ * @returns
+ */
 function top_menu() {
     let template = `
         <select class="top-menu__wiev-select" v-model="selected" v-on:change="selecting">
@@ -169,30 +267,45 @@ function top_menu() {
         </select>
     `;
     document.getElementById('top-menu').innerHTML = template;
-    
+
     new Vue({
         el: '.top-menu__wiev-select',
         data: {
-          selected: 'iteration',
+          selected: 'iteration_data_by_desc',
           options: [
-            { text: 'Этапы', value: 'iteration' },
-            { text: 'Пользователи', value: 'user' }
+            { text: 'Этапы (дата) ↑', value: 'iteration_data_by_asc' },
+            { text: 'Этапы (дата ↓', value: 'iteration_data_by_desc' },
+            { text: 'Пользователи (кол.рисунков) ↑', value: 'users_pict_by_asc' },
+            { text: 'Пользователи (кол.рисунков) ↓', value: 'users_pict_by_desc' },
+            { text: 'Пользователи (имя) ↑', value: 'users_name_pict_by_asc' },
+            { text: 'Пользователи (имя) ↓', value: 'users_name_pict_by_desc' },
           ]
         },
         methods: {
-            selecting: function (event) {
+          selecting: function (event) {
               console.log('>>>', this.selected);
-              if (this.selected === 'iteration') {
-                  work(window.swtd_data);
-                  return;
+              switch (this.selected) {
+                  case 'iteration_data_by_desc':
+                      iteration_pictures_list(window.swtd_data, {iteration_data_by_user:'DESC'});
+                      break;
+                  case 'iteration_data_by_asc':
+                      iteration_pictures_list(window.swtd_data, {iteration_data_by_user:'ASC'});
+                      break;
+                  case 'users_pict_by_asc':
+                      user_pictures_list(window.swtd_data, {order_by_user:'ASC'});
+                      break;
+                  case 'users_pict_by_desc':
+                      user_pictures_list(window.swtd_data, {order_by_user:'DESC'});
+                      break;
+                  case 'users_name_pict_by_asc':
+                      user_name_pictures_list(window.swtd_data, {order_by_user_name:'ASC'});
+                      break;
+                  case 'users_name_pict_by_desc':
+                      user_name_pictures_list(window.swtd_data, {order_by_user_name:'DESC'});
+                      break;
               }
-              if (this.selected === 'user') {
-                  user_pictures_list(window.swtd_data);
-                  return;
-              }
+              return;
             }
-          }
-      })
+        }
+    })
 }
-
-

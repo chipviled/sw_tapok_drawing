@@ -1,3 +1,3 @@
-//=require egg.js 
-//=require photoswipe.js 
-//=require general.js 
+//=require egg.js
+//=require photoswipe.js
+//=require general.js
