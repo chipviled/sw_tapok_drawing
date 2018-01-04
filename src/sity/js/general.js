@@ -311,7 +311,7 @@ function table_user_achivement(data, config = {}) {
           u.sity_id AS user_sity_id,
           u.name AS user_name,
           COUNT(p.id) AS count_pictures,
-          SUM(IF(p.is_win = 1,1,0)) AS count_wins
+          SUM(IF(p.is_win > 0,1,0)) AS count_wins
         FROM ? u
         LEFT JOIN ? p ON u.id = p.user_id
         GROUP BY u.id
@@ -335,7 +335,7 @@ function table_user_achivement(data, config = {}) {
                 a.id AS achivement_id,
                 a.title AS achivement_title,
                 a.description AS achivement_description,
-                u.id AS user_id
+                u.id
             FROM ? a
             LEFT JOIN ? ua ON a.id = ua.achivement_id
             LEFT JOIN ? u ON ua.user_id = u.id
