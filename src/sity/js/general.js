@@ -61,6 +61,50 @@ function template_iteration(data) {
 }
 
 
+function template_table(data) {
+    let source = `
+    <div class="iteration iteration_table" data-id="{{id}}">
+      <div class="iteration_title">
+           {{#if title_name}}
+               <div class="title__name">{{title_name}}</div>
+           {{/if}}
+      </div>
+      <div class="iteration_table__body">
+        <table>
+            <thead>
+                <tr>
+                    <th style="text-align:center;">Имя пользователя</th>
+                    <th style="text-align:center;">Кол. рисунков (общее)</th>
+                    <th style="text-align:center;">Кол. побед</th>
+                    <th style="text-align:center;">Ачивки</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each rows}}
+                    <tr>
+                        <td style="text-align:center;">
+                            <a class="iteration_table__link"
+                                href="//sonic-world.ru/forum/user/{{user_sity_id}}-{{user_name}}">{{user_name}}</a>
+                        </td>
+                        <td style="text-align:center;">{{count_pictures}}</td>
+                        <td style="text-align:center;">{{count_wins}}</td>
+                        <td>
+                            {{#each achivements}}
+                                <img class="iteration_table__achivement" src="{{image}}" alt="{{title}}  -  {{description}}">
+                            {{/each}}
+                        </td>
+                    </tr>
+                {{/each}}
+            </tbody>
+        </table>
+      </div>
+    </div>
+    `;
+    let template = Handlebars.compile(source);
+    return template(data);
+}
+
+
 
 // TODO: Create this with for.
 Promise.all([
@@ -220,9 +264,7 @@ function user_name_pictures_list(data, config = {}) {
         `
         , [data.users, data.picture]
     );
-    
-    console.log(iterations_data);
-    
+        
     template_iterations.innerHTML = '';
 
     for (let row_i of iterations_data) {
@@ -255,6 +297,74 @@ function user_name_pictures_list(data, config = {}) {
 
 
 /**
+ * @param data
+ * @param config
+ * @returns
+ */
+function table_user_achivement(data, config = {}) {
+    let order_by_user_name = (config.order_by_user_name === 'ASC')?'ASC':'DESC';
+        
+    let template_iterations = document.getElementById("iterations");
+    let table_data = alasql(`
+        SELECT u.*,
+          u.id AS id, 
+          u.sity_id AS user_sity_id,
+          u.name AS user_name,
+          COUNT(p.id) AS count_pictures,
+          SUM(IF(p.is_win = 1,1,0)) AS count_wins
+        FROM ? u
+        LEFT JOIN ? p ON u.id = p.user_id
+        GROUP BY u.id
+        HAVING COUNT(p.id) > 0
+        ORDER BY user_name ${order_by_user_name}
+        `
+        , [data.users, data.picture]
+    );
+    
+    template_iterations.innerHTML = '';
+    
+    let table = {};
+    table.title_name = 'Выданные ачивки';
+    table.rows = table_data;
+    
+    for (let i in table.rows) {
+        let id_tmp = table.rows[i].id;
+        
+        let row_data = alasql(`
+            SELECT a.*, 
+                a.id AS achivement_id,
+                a.title AS achivement_title,
+                a.description AS achivement_description,
+                u.id AS user_id
+            FROM ? a
+            LEFT JOIN ? ua ON a.id = ua.achivement_id
+            LEFT JOIN ? u ON ua.user_id = u.id
+            WHERE u.id = ?
+            GROUP BY a.id
+            ORDER BY a.id ASC
+            `
+            , [data.achivement, data.user_achivement, data.users, id_tmp]
+        );
+        
+        table.rows[i].achivements = row_data;
+    }
+
+    console.log(table);
+    
+    let t_object = document.createElement('li');
+    t_object.innerHTML = template_table(table);
+    template_iterations.appendChild(t_object);
+
+
+//    let bLazy = new Blazy({
+//        // options
+//    });
+//    new photoswipe_init('.gallery');
+}
+
+
+
+/**
  * Top menu initial.
  * @returns
  */
@@ -274,11 +384,12 @@ function top_menu() {
           selected: 'iteration_data_by_desc',
           options: [
             { text: 'Этапы (дата) ↑', value: 'iteration_data_by_asc' },
-            { text: 'Этапы (дата ↓', value: 'iteration_data_by_desc' },
+            { text: 'Этапы (дата) ↓', value: 'iteration_data_by_desc' },
             { text: 'Пользователи (кол.рисунков) ↑', value: 'users_pict_by_asc' },
             { text: 'Пользователи (кол.рисунков) ↓', value: 'users_pict_by_desc' },
             { text: 'Пользователи (имя) ↑', value: 'users_name_pict_by_asc' },
             { text: 'Пользователи (имя) ↓', value: 'users_name_pict_by_desc' },
+            { text: 'Ачивки (таблица)', value: 'table_user_achivement_by_asc' },
           ]
         },
         methods: {
@@ -302,6 +413,9 @@ function top_menu() {
                       break;
                   case 'users_name_pict_by_desc':
                       user_name_pictures_list(window.swtd_data, {order_by_user_name:'DESC'});
+                      break;
+                  case 'table_user_achivement_by_asc':
+                      table_user_achivement(window.swtd_data, {order_by_user_name:'ASC'});
                       break;
               }
               return;

@@ -202,6 +202,30 @@ body {
     padding-left: 0.5rem;
 }
 
+.top-menu__wiev-select {
+    width: 100%;
+}
+
+.iteration_table table {
+    border-collapse: collapse;
+}
+
+.iteration_table table td,
+.iteration_table table th {
+    padding-left: 8px;
+    padding-right: 8px;
+    border: 1px solid $color-dafault-down;
+}
+
+.iteration_table__link {
+    color: $color-dafault-dark;
+}
+
+.iteration_table__achivement{
+    margin: 4px;
+}
+
+
 @media only screen and (min-width:48em) {
     .container-fluid  {
         padding-right: 2rem;
