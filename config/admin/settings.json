@@ -418,8 +418,8 @@
                 "manyToMany": {
                     "link": {
                         "table": "user_achivement",
-                        "parentPk": "achivement_id",
-                        "childPk": "user_id"
+                        "parentPk": "user_id",
+                        "childPk": "achivement_id"
                     },
                     "ref": {
                         "table": "achivement",

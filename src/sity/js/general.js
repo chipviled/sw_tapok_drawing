@@ -1,3 +1,24 @@
+/**
+ * @param array
+ * @param id
+ * @returns
+ */
+function findInArrayObjectById(element, id) {
+    if (element.id === id) return element;
+    return null;
+}
+
+/**
+ * @param {array} array
+ * @param {integer|string} id
+ * @returns
+ * 
+ *  Use: returnInArrayObjectById([{id:1, text:'foo'},{id:2, text:'bar'}], 2)
+ */
+function returnInArrayObjectById(array, id) {
+    return array.find((el) => findInArrayObjectById(el, id)) || null;
+}
+
 
 function template_iteration(data) {
     let source = `
@@ -70,7 +91,7 @@ function template_table(data) {
            {{/if}}
       </div>
       <div class="iteration_table__body">
-        <table>
+        <table id="tablesort" class="tablesort">
             <thead>
                 <tr>
                     <th style="text-align:center;">Имя пользователя</th>
@@ -90,13 +111,19 @@ function template_table(data) {
                         <td style="text-align:center;">{{count_wins}}</td>
                         <td>
                             {{#each achivements}}
-                                <img class="iteration_table__achivement" src="{{image}}" alt="{{title}}  -  {{description}}">
+                                {{#if title}}
+                                    <img class="iteration_table__achivement" 
+                                        src="{{image}}" alt="{{title}} - {{description}}"
+                                        title="{{title}} - {{description}}"
+                                        >
+                                {{/if}}
                             {{/each}}
                         </td>
                     </tr>
                 {{/each}}
             </tbody>
         </table>
+        <div class="text-gray">* Для сортировки кликнуть по названию колонки</div>
       </div>
     </div>
     `;
@@ -292,7 +319,9 @@ function user_name_pictures_list(data, config = {}) {
     let bLazy = new Blazy({
         // options
     });
+    
     new photoswipe_init('.gallery');
+
 }
 
 
@@ -318,8 +347,18 @@ function table_user_achivement(data, config = {}) {
         HAVING COUNT(p.id) > 0
         ORDER BY user_name ${order_by_user_name}
         `
-        , [data.users, data.picture]
+        , [data.users, data.picture, data.user_achivement]
     );
+    
+//    let achivement_data = alasql(`
+//        SELECT user_id AS [id],
+//          ARRAY(DISTINCT achivement_id) AS achivements_ids
+//          
+//        FROM ?
+//        GROUP BY user_id
+//        `
+//        , [data.user_achivement]
+//    );
     
     template_iterations.innerHTML = '';
     
@@ -328,14 +367,10 @@ function table_user_achivement(data, config = {}) {
     table.rows = table_data;
     
     for (let i in table.rows) {
-        let id_tmp = table.rows[i].id;
         
         let row_data = alasql(`
-            SELECT a.*, 
-                a.id AS achivement_id,
-                a.title AS achivement_title,
-                a.description AS achivement_description,
-                u.id
+            SELECT a.*,
+              IFNULL(image, '#') AS [image]
             FROM ? a
             LEFT JOIN ? ua ON a.id = ua.achivement_id
             LEFT JOIN ? u ON ua.user_id = u.id
@@ -343,7 +378,7 @@ function table_user_achivement(data, config = {}) {
             GROUP BY a.id
             ORDER BY a.id ASC
             `
-            , [data.achivement, data.user_achivement, data.users, id_tmp]
+            , [data.achivement, data.user_achivement, data.users, table.rows[i].id]
         );
         
         table.rows[i].achivements = row_data;
@@ -355,11 +390,13 @@ function table_user_achivement(data, config = {}) {
     t_object.innerHTML = template_table(table);
     template_iterations.appendChild(t_object);
 
-
 //    let bLazy = new Blazy({
 //        // options
 //    });
 //    new photoswipe_init('.gallery');
+    
+    new Tablesort(document.getElementById('tablesort'));
+
 }
 
 
@@ -383,13 +420,13 @@ function top_menu() {
         data: {
           selected: 'iteration_data_by_desc',
           options: [
-            { text: 'Этапы (дата) ↑', value: 'iteration_data_by_asc' },
-            { text: 'Этапы (дата) ↓', value: 'iteration_data_by_desc' },
-            { text: 'Пользователи (кол.рисунков) ↑', value: 'users_pict_by_asc' },
-            { text: 'Пользователи (кол.рисунков) ↓', value: 'users_pict_by_desc' },
-            { text: 'Пользователи (имя) ↑', value: 'users_name_pict_by_asc' },
-            { text: 'Пользователи (имя) ↓', value: 'users_name_pict_by_desc' },
-            { text: 'Ачивки (таблица)', value: 'table_user_achivement_by_asc' },
+            { text: 'Этапы (дата) ASC', value: 'iteration_data_by_asc' },
+            { text: 'Этапы (дата) DESC', value: 'iteration_data_by_desc' },
+            { text: 'Пользователи (кол.рисунков) ASC', value: 'users_pict_by_asc' },
+            { text: 'Пользователи (кол.рисунков) DESC', value: 'users_pict_by_desc' },
+            { text: 'Пользователи (имя) ASC', value: 'users_name_pict_by_asc' },
+            { text: 'Пользователи (имя) DESC', value: 'users_name_pict_by_desc' },
+            { text: 'Сводные данные (таблица)', value: 'table_user_achivement_by_asc' },
           ]
         },
         methods: {
