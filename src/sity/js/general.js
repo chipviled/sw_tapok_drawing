@@ -345,7 +345,7 @@ function table_user_achivement(data, config = {}) {
         LEFT JOIN ? p ON u.id = p.user_id
         GROUP BY u.id
         HAVING COUNT(p.id) > 0
-        ORDER BY user_name ${order_by_user_name}
+        ORDER BY count_wins DESC
         `
         , [data.users, data.picture, data.user_achivement]
     );
@@ -384,8 +384,6 @@ function table_user_achivement(data, config = {}) {
         table.rows[i].achivements = row_data;
     }
 
-    console.log(table);
-    
     let t_object = document.createElement('li');
     t_object.innerHTML = template_table(table);
     template_iterations.appendChild(t_object);
@@ -394,7 +392,7 @@ function table_user_achivement(data, config = {}) {
 //        // options
 //    });
 //    new photoswipe_init('.gallery');
-    
+
     new Tablesort(document.getElementById('tablesort'));
 
 }
@@ -431,7 +429,7 @@ function top_menu() {
         },
         methods: {
           selecting: function (event) {
-              console.log('>>>', this.selected);
+              //console.log('>>>', this.selected);
               switch (this.selected) {
                   case 'iteration_data_by_desc':
                       iteration_pictures_list(window.swtd_data, {iteration_data_by_user:'DESC'});
