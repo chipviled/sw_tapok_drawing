@@ -1,13 +1,18 @@
 const moment = require('moment');
 const fs = require('fs');
-const im = require('imagemagick-native');
+//const im = require('imagemagick-native');
 const deasync = require('deasync');
+const sharp = require('sharp');
 
 const picFormat = {
-        'JPG': '.jpg',
-        'JPEG':'.jpg',
-        'PNG': '.png',
-        'GIF': '.gif'
+        // 'JPG': '.jpg',
+        // 'JPEG':'.jpg',
+        // 'PNG': '.png',
+        // 'GIF': '.gif',
+        'jpg': '.jpg',
+        'jpeg':'.jpg',
+        'png': '.png',
+        'gif': '.png'
 };
 const thumb = 'thumb_';
 const maxSize = 1600;
@@ -15,21 +20,18 @@ const thumbSize = 160;
 
 
 
-exports.preSave = function (req, res, args, next) {
+exports.preSave = async function (req, res, args, next) {
     //console.log(args, '---------');
+    let result = null;
     if (args.name == 'picture') {
         console.log('picture');
-        
+
         if (args.action == 'insert') {
             console.log('insert');
-//            var file = args.data.view.picture.records[0].columns.file;
-//            if (file === null || file === undefined || file === '') {
-//                return next({'message': 'Need file not selected'});
-//            }
-            savePicture(req, res, args, next);
+            result = await savePicture(req, res, args, next);
         } else if (args.action == 'update') {
             console.log('update');
-            savePicture(req, res, args, next);
+            result = await savePicture(req, res, args, next);
         } else if (args.action == 'remove') {
             console.log('remove');
         }
@@ -44,34 +46,32 @@ exports.preSave = function (req, res, args, next) {
         }
         record.file = null;
     }
-    next();
+    return await next(result);
 }
 
-savePicture = function(req, res, args, next) {
+savePicture = async function(req, res, args, next) {
     var record = args.data.view.picture.records[0].columns;
     var file = record.file;
-    
+
     if (file !== null && file !== undefined && file !== '') {
-        
+
         var fileBuffer = new Buffer(file, 'hex');
         var path = moment(new Date()).format('YYYY-MM');
         var name = moment(new Date()) + '_' + record.user_id;
-        
-        try {
-            var im_identify = deasync(im.identify);
-            var identify = im_identify({
-                srcData: fileBuffer
-                });
-            //console.log('identify', identify);
 
-            if (!(identify.format in picFormat))
-                return next({'message': 'Unsupported format: ' + identify.format});
-            
+        try {
+            var image = sharp(fileBuffer);
+            let metadata = await image.metadata();
+            console.log('metadata', metadata);
+
+            if (!(metadata.format in picFormat))
+                return {'message': 'Unsupported format: ' + metadata.format};
+
             record.file_path = path;
-            record.file_name = name + picFormat[identify.format];
-            
-            var w = identify.width;
-            var h = identify.height;
+            record.file_name = name + picFormat[metadata.format];
+
+            var w = metadata.width;
+            var h = metadata.height;
             if (w > maxSize || h > maxSize){
                 if (w > h) {
                     h = Math.round((maxSize/w) * h);
@@ -85,28 +85,22 @@ savePicture = function(req, res, args, next) {
             record.pict_width = w;
             record.pict_height = h;
         } catch(e) {
-            return next({'message': 'Incorrect image file'});
+            return {message: 'Incorrect image file. ' + e.message};
         }
-        
+
         try {
-            var im_convert = deasync(im.convert);
-            var thumb_fileBuffer = im_convert({
-                srcData: fileBuffer,
-                width: thumbSize,
-                height: thumbSize,
-                quality: 93,
-                resizeStyle: 'aspectfill',
-                gravity: 'Center'
-            });
-            
-            fileBuffer = im_convert({
-                srcData: fileBuffer,
-                width: record.pict_width,
-                height: record.pict_height,
-                quality: 90,
-            });
+            var thumb_fileBuffer = await image.resize(thumbSize, thumbSize)
+                .min()
+                .crop(sharp.strategy.entropy)
+                .withoutEnlargement()
+                .toBuffer({quality: 93});
+
+            var fileBuffer = await image.resize(record.pict_width)
+                .min()
+                .withoutEnlargement()
+                .toBuffer({quality: 90});
         } catch(e) {
-            return next({'message': 'Can not create thumb or resize image'});
+            return {'message': 'Can not create thumb or resize image. ' + e.message};
         }
 
         try {
@@ -114,24 +108,19 @@ savePicture = function(req, res, args, next) {
                 fs.mkdirSync(args.upath + path);
             }
             fs.writeFileSync(
-                    args.upath + record.file_path + '/' + record.file_name, 
+                    args.upath + record.file_path + '/' + record.file_name,
                     fileBuffer,
                     'binary'
                 );
             fs.writeFileSync(
-                    args.upath + record.file_path + '/' + thumb + record.file_name, 
+                    args.upath + record.file_path + '/' + thumb + record.file_name,
                     thumb_fileBuffer,
                     'binary'
                 );
             console.log('File saved.')
         } catch(e) {
-            return next({'message': e});
+            return {'message': e.message};
         }
     }
     return null;
 }
-
-
-
-
-
