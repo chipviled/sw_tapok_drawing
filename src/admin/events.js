@@ -1,7 +1,5 @@
 const moment = require('moment');
 const fs = require('fs');
-//const im = require('imagemagick-native');
-const deasync = require('deasync');
 const sharp = require('sharp');
 
 const picFormat = {

@@ -1,16 +1,8 @@
 # Install
 
-For normal work need `node >= 7.8`
+For normal work need `node >= 8.0`
 
 All commands need run from project root directory.
-
-Install imagemagick-native:
-
-```
-sudo apt-get install libmagick++-dev
-
-ln -s `ls /usr/lib/\`uname -m\`-linux-gnu/ImageMagick-*/bin-q16/Magick++-config | head -n 1` /usr/local/bin/
-```
 
 Install need node modules:
 ```
@@ -20,7 +12,6 @@ Create temp empty database:
 ```
 cat ./sql/database.sql | sqlite3 ./cache/database.db
 ```
-
 
 
 
@@ -46,12 +37,12 @@ It's local admin for comfortable working with local data only.
 
 For export database data to json (static sity public data) use:
 ```
-./bin/db2json.js 
+./bin/db2json.js
 ```
 
 For import data from json to database use:
 ```
-./bin/json2db.js 
+./bin/json2db.js
 ```
 All old data will be deleted.
 
@@ -70,6 +61,7 @@ or
 ```
 
 
+
 # Run Static Sity
 
 From project root directory run:
@@ -78,6 +70,3 @@ From project root directory run:
 ```
 
 After open in your browser `http://localhost:9002`
-
-
-
