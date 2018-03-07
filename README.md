@@ -48,25 +48,25 @@ All old data will be deleted.
 
 
 
-# Build Static Sity
+# Build Static Site
 
 First you need export database.
-Than you can build sity with *gulp*:
+You can build site with *gulp*:
 ```
- ./node_modules/.bin/gulp
+ ./node_modules/.bin/gulp --env=prod
 ```
 or
 ```
- ./bin/gulp
+ ./bin/gulp --env=prod
 ```
 
 
 
-# Run Static Sity
+# Run Static Site
 
 From project root directory run:
 ```
-./bin/sity.sh
+./bin/site.sh
 ```
 
 After open in your browser `http://localhost:9002`
