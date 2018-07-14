@@ -22,6 +22,7 @@ body {
     padding: 0;
     background-color: $background-color;
     background-image: url("../image/noise.png");
+    overflow-y: scroll;
 }
 
 .main-container {
