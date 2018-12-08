@@ -1,10 +1,12 @@
 {
   "name": "sw_tapok_drawing",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "admin": "./bin/admin.sh ",
+    "site": "./bin/db2json.js && ./bin/gulp --env=prod && ./bin/site.sh"
   },
   "author": "Chip Viled",
   "license": "MIT",

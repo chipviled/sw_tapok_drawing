@@ -1,6 +1,6 @@
 # Install
 
-For normal work need `node >= 8.0`
+For normal work need `node >= 10.0`
 
 All commands need run from project root directory.
 

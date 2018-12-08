@@ -123,7 +123,7 @@ function html() {
       .pipe(gulp.dest(paths.html.dest));
   }
 
-function watch() {
+function watch(callback) {
     build();
     gulp.watch(paths.scripts_watch.src, scripts);
     gulp.watch(paths.styles.src, styles);
@@ -131,6 +131,8 @@ function watch() {
     gulp.watch(paths.image.src, image);
     gulp.watch(paths.data.src, data);
     gulp.watch(paths.html.src, html);
+    
+    callback();
 }
 
 
@@ -144,7 +146,7 @@ exports.data = data;
 exports.html = html;
 
 
-var build = function() {
+var build = function(callback) {
     //clean();
     styles(); 
     scripts(); 
@@ -152,13 +154,22 @@ var build = function() {
     image();
     data();
     html();
+    
+    callback();
 };
 
-gulp.task('build', build);
+exports.build = build;
+exports.default = build;
 
-gulp.task('default', build);
 
-gulp.task('watch', watch);
+//gulp.task('build', build);
+//gulp.task('default', build);
+//gulp.task('watch', watch);
+//gulp.task('clean', clean);
 
-gulp.task('clean', clean);
+
+//gulp v3
+//gulp.task('clean', del.bind(null, ['docs', 'coverage', 'build', 'release']));
+// gulp v4
+//exports.clean = del.bind(null, ['docs', 'coverage', 'build', 'release']);
 
