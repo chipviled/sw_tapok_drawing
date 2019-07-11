@@ -24,9 +24,9 @@
     "vue-resource": "^1.5.1"
   },
   "devDependencies": {
-    "@babel/cli": "^7.4.4",
+    "@babel/cli": "^7.5.0",
     "@babel/plugin-transform-regenerator": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-env": "^7.5.4",
     "@babel/register": "^7.4.4",
     "del": "^2.2.2",
     "gulp": "^4.0.2",
