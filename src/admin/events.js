@@ -59,11 +59,13 @@ savePicture = async function(req, res, args, next) {
 
         try {
             var image = sharp(fileBuffer);
-            let metadata = await image.metadata();
+            var metadata = await image.metadata();
             console.log('metadata', metadata);
 
             if (!(metadata.format in picFormat))
                 return {'message': 'Unsupported format: ' + metadata.format};
+
+            if (metadata.format === 'jpg') metadata.format = 'jpeg';
 
             record.file_path = path;
             record.file_name = name + picFormat[metadata.format];
@@ -87,16 +89,33 @@ savePicture = async function(req, res, args, next) {
         }
 
         try {
-            var thumb_fileBuffer = await image.resize(thumbSize, thumbSize)
-                .min()
-                .crop(sharp.strategy.entropy)
-                .withoutEnlargement()
-                .toBuffer({quality: 93});
+            var thumb_fileBuffer = null;
+            var fileBuffer = null;
 
-            var fileBuffer = await image.resize(record.pict_width)
-                .min()
-                .withoutEnlargement()
-                .toBuffer({quality: 90});
+            if (metadata.format === 'jpeg') {
+                thumb_fileBuffer = await image.resize(thumbSize, thumbSize, {
+                    withoutEnlargement: true,
+                    canvas: 'min',
+                    crop: sharp.strategy.entropy
+                }).jpeg({quality: 93}).toBuffer();
+
+                fileBuffer = await image.resize(record.pict_width, null, {
+                    withoutEnlargement: true,
+                    canvas: 'min',
+                }).jpeg({quality: 90}).toBuffer();
+            } else {
+                thumb_fileBuffer = await image.resize(thumbSize, thumbSize, {
+                    withoutEnlargement: true,
+                    canvas: 'min',
+                    crop: sharp.strategy.entropy
+                }).png({progressive: true}).toBuffer();
+
+                fileBuffer = await image.resize(record.pict_width, null, {
+                    withoutEnlargement: true,
+                    canvas: 'min',
+                }).png().toBuffer();
+            }
+
         } catch(e) {
             return {'message': 'Can not create thumb or resize image. ' + e.message};
         }
