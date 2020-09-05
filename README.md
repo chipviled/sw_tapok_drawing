@@ -1,3 +1,6 @@
+# DEPRECATED
+
+
 # Install
 
 For normal work need `node >= 10.0`
